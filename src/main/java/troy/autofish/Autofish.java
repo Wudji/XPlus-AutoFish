@@ -49,7 +49,7 @@ public class Autofish {
         modAutofish.getScheduler().scheduleRepeatingAction(10000, () -> {
             if(!modAutofish.getConfig().isPersistentMode()) return;
             if(!isHoldingFishingRod()) return;
-            if(hookExists && isBobberInWater()) return;
+            if(hookExists) return;
             if(modAutofish.getScheduler().isRecastQueued()) return;
 
             useRod();
