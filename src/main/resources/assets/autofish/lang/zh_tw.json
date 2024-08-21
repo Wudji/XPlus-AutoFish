@@ -54,7 +54,7 @@
   "options.autofish.recast_delay.tooltip_1": "重新拋竿之間的延遲。",
 
   "options.autofish.random_delay.title": "隨機拋竿延遲範圍",
-  "options.autofish.random_delay.value": "%d%",
+  "options.autofish.random_delay.value": "百分之 %d",
   "options.autofish.random_delay.tooltip_0": "為重新拋竿延遲增加 ±% 的隨機性",
   "options.autofish.random_delay.tooltip_1": "例如：將此設定為 20% 會使",
   "options.autofish.random_delay.tooltip_2": "1500 毫秒的延遲落在 1200-1800 毫秒（1500 毫秒 ±20%）。",
