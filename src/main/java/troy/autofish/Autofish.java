@@ -48,6 +48,7 @@ public class Autofish {
         //Initiate the repeating action for persistent mode casting
         modAutofish.getScheduler().scheduleRepeatingAction(10000, () -> {
             if(!modAutofish.getConfig().isPersistentMode()) return;
+            if(modAutofish.getConfig().isNoBreak() && getHeldItem().getDamage() >= 63) return;
             if(!isHoldingFishingRod()) return;
             if(hookExists){
                 if(isBobberInWater()) return;
