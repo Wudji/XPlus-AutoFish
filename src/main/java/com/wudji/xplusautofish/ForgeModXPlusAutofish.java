@@ -53,12 +53,15 @@ public class ForgeModXPlusAutofish {
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
-        Minecraft client = Minecraft.getInstance();
-        if (autofishGuiKey.get().isDown()) {
-            client.setScreen(AutoFishConfigScreen.buildScreen(this, client.screen));
+        if(this.autofish != null){
+            Minecraft client = Minecraft.getInstance();
+            if (autofishGuiKey.get().isDown()) {
+                client.setScreen(AutoFishConfigScreen.buildScreen(this, client.screen));
+            }
+            autofish.tick(client);
+            scheduler.tick(client);
         }
-        autofish.tick(client);
-        scheduler.tick(client);
+
     }
 
     @Mod.EventBusSubscriber(modid = "autofish", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
