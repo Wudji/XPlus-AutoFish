@@ -17,7 +17,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.jarjar.nio.util.Lazy;
+import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -31,7 +31,7 @@ public class NeoForgedModXPlusAutofish
     // Define mod id in a common place for everything to reference
     public static final String MODID = "autofish";
     public static final Lazy<KeyMapping> CONFIG_SCREEN_MAPPING = Lazy.of(() ->
-            new KeyMapping("key.autofish.open_gui", GLFW.GLFW_KEY_V, "XPlus Autofish"));
+            new KeyMapping("key.autofish.open_gui", GLFW.GLFW_KEY_V, net.minecraft.client.KeyMapping.Category.GAMEPLAY));
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
