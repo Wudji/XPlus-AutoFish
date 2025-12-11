@@ -48,7 +48,7 @@ public class FishMonitorMPMotion implements FishMonitorMP{
 
                 // Wait until the bobber has rose in the water.
                 // Prevent remarking the bobber rise timestamp until it is reset by catching.
-                if (hasHitWater && bobberRiseTimestamp == 0 && velocityPacket.getYa() > 0) {
+                if (hasHitWater && bobberRiseTimestamp == 0 && velocityPacket.getMovement().y > 0) {
                     // Mark the time in which the bobber began to rise.
                     bobberRiseTimestamp = autofish.timeMillis;
                 }
@@ -58,7 +58,7 @@ public class FishMonitorMPMotion implements FishMonitorMP{
 
                 // If the bobber has been in the water long enough, start detecting the bobber movement.
                 if (hasHitWater && bobberRiseTimestamp != 0 && timeInWater > START_CATCHING_AFTER_THRESHOLD) {
-                    if (velocityPacket.getXa() == 0 && velocityPacket.getZa() == 0 && velocityPacket.getYa() < PACKET_MOTION_Y_THRESHOLD) {
+                    if (velocityPacket.getMovement().x == 0 && velocityPacket.getMovement().z == 0 && velocityPacket.getMovement().y < PACKET_MOTION_Y_THRESHOLD) {
                         // Catch the fish
                         autofish.catchFish();
 
