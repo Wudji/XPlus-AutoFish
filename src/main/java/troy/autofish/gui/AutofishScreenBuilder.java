@@ -105,15 +105,15 @@ public class AutofishScreenBuilder {
                 .setYesNoTextSupplier(yesNoTextSupplier)
                 .build();
 
-        //Disable in Inventory
-        AbstractConfigListEntry toggleDisableInInventory = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.disable_in_inventory.title"), config.isDisableInInventory())
-                .setDefaultValue(defaults.isDisableInInventory())
+        //Disable in Container
+        AbstractConfigListEntry toggleDisableInContainer = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.disable_in_container.title"), config.isDisableInContainer())
+                .setDefaultValue(defaults.isDisableInContainer())
                 .setTooltip(
-                        Text.translatable("options.autofish.disable_in_inventory.tooltip_0"),
-                        Text.translatable("options.autofish.disable_in_inventory.tooltip_1")
+                        Text.translatable("options.autofish.disable_in_container.tooltip_0"),
+                        Text.translatable("options.autofish.disable_in_container.tooltip_1")
                 )
                 .setSaveConsumer(newValue -> {
-                    modAutofish.getConfig().setDisableInInventory(newValue);
+                    modAutofish.getConfig().setDisableInContainer(newValue);
                 })
                 .setYesNoTextSupplier(yesNoTextSupplier)
                 .build();
@@ -250,7 +250,7 @@ public class AutofishScreenBuilder {
         subCatBuilderBasic.add(toggleOpenWaterDetection);
         subCatBuilderBasic.add(toggleBreakProtection);
         subCatBuilderBasic.add((togglePersistentMode));
-        subCatBuilderBasic.add(toggleDisableInInventory);
+        subCatBuilderBasic.add(toggleDisableInContainer);
         subCatBuilderBasic.setExpanded(true);
         subCatBuilderBasic.add(toggleAutoTurnView);
         subCatBuilderBasic.add(turnAngleSlider);

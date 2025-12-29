@@ -12,7 +12,7 @@ public class Config {
     @Expose boolean useSoundDetection = false;
     @Expose boolean forceMPDetection = false;
     @Expose boolean autoTurnView = false;
-    @Expose boolean disableInInventory = true;
+    @Expose boolean disableInContainer = true;
     @Expose float turnAngle = 30.0f;
     @Expose int turnDuration = 500;
     @Expose long recastDelay = 1500;
@@ -52,12 +52,12 @@ public class Config {
         this.autoTurnView = autoTurnView;
     }
 
-    public boolean isDisableInInventory() {
-        return disableInInventory;
+    public boolean isDisableInContainer() {
+        return disableInContainer;
     }
 
-    public void setDisableInInventory(boolean disableInInventory) {
-        this.disableInInventory = disableInInventory;
+    public void setDisableInContainer(boolean disableInContainer) {
+        this.disableInContainer = disableInContainer;
     }
 
     public float getTurnAngle() {
