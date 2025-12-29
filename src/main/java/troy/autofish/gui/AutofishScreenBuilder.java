@@ -105,14 +105,15 @@ public class AutofishScreenBuilder {
                 .setYesNoTextSupplier(yesNoTextSupplier)
                 .build();
 
-        AbstractConfigListEntry toggleGUIChecker = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.guichecker.title"), config.isPersistentMode())
-                .setDefaultValue(defaults.isDisableInGUI())
+        //Disable in Container
+        AbstractConfigListEntry toggleDisableInContainer = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.disable_in_container.title"), config.isDisableInContainer())
+                .setDefaultValue(defaults.isDisableInContainer())
                 .setTooltip(
-                        Text.translatable("options.autofish.guichecker.tooltip_0"),
-                        Text.translatable("options.autofish.guichecker.tooltip_1")
+                        Text.translatable("options.autofish.disable_in_container.tooltip_0"),
+                        Text.translatable("options.autofish.disable_in_container.tooltip_1")
                 )
                 .setSaveConsumer(newValue -> {
-                    modAutofish.getConfig().setDisableInGUI(newValue);
+                    modAutofish.getConfig().setDisableInContainer(newValue);
                 })
                 .setYesNoTextSupplier(yesNoTextSupplier)
                 .build();
@@ -249,7 +250,8 @@ public class AutofishScreenBuilder {
         subCatBuilderBasic.add(toggleOpenWaterDetection);
         subCatBuilderBasic.add(toggleBreakProtection);
         subCatBuilderBasic.add((togglePersistentMode));
-        subCatBuilderBasic.add(toggleGUIChecker);
+        subCatBuilderBasic.add(toggleDisableInContainer);
+        subCatBuilderBasic.setExpanded(true);
         subCatBuilderBasic.add(toggleAutoTurnView);
         subCatBuilderBasic.add(turnAngleSlider);
         subCatBuilderBasic.add(turnDurationSlider);

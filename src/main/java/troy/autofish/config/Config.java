@@ -13,6 +13,7 @@ public class Config {
     @Expose boolean useSoundDetection = false;
     @Expose boolean forceMPDetection = false;
     @Expose boolean autoTurnView = false;
+    @Expose boolean disableInContainer = true;
     @Expose float turnAngle = 30.0f;
     @Expose int turnDuration = 500;
     @Expose long recastDelay = 1500;
@@ -50,6 +51,14 @@ public class Config {
 
     public void setAutoTurnView(boolean autoTurnView) {
         this.autoTurnView = autoTurnView;
+    }
+
+    public boolean isDisableInContainer() {
+        return disableInContainer;
+    }
+
+    public void setDisableInContainer(boolean disableInContainer) {
+        this.disableInContainer = disableInContainer;
     }
 
     public float getTurnAngle() {
