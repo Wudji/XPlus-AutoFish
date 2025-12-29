@@ -105,6 +105,19 @@ public class AutofishScreenBuilder {
                 .setYesNoTextSupplier(yesNoTextSupplier)
                 .build();
 
+        //Disable in Inventory
+        AbstractConfigListEntry toggleDisableInInventory = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.disable_in_inventory.title"), config.isDisableInInventory())
+                .setDefaultValue(defaults.isDisableInInventory())
+                .setTooltip(
+                        Text.translatable("options.autofish.disable_in_inventory.tooltip_0"),
+                        Text.translatable("options.autofish.disable_in_inventory.tooltip_1")
+                )
+                .setSaveConsumer(newValue -> {
+                    modAutofish.getConfig().setDisableInInventory(newValue);
+                })
+                .setYesNoTextSupplier(yesNoTextSupplier)
+                .build();
+
 
         //Enable Sound Detection
         AbstractConfigListEntry toggleSoundDetection = entryBuilder.startBooleanToggle(Text.translatable("options.autofish.sound.title"), config.isUseSoundDetection())
@@ -237,6 +250,7 @@ public class AutofishScreenBuilder {
         subCatBuilderBasic.add(toggleOpenWaterDetection);
         subCatBuilderBasic.add(toggleBreakProtection);
         subCatBuilderBasic.add((togglePersistentMode));
+        subCatBuilderBasic.add(toggleDisableInInventory);
         subCatBuilderBasic.setExpanded(true);
         subCatBuilderBasic.add(toggleAutoTurnView);
         subCatBuilderBasic.add(turnAngleSlider);

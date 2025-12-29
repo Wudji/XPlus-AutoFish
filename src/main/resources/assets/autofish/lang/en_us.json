@@ -31,6 +31,10 @@
   "options.autofish.persistent.tooltip_4": "This is useful for lag issues or when",
   "options.autofish.persistent.tooltip_5": "fishing for long periods of time.",
 
+  "options.autofish.disable_in_inventory.title": "Disable in Inventories",
+  "options.autofish.disable_in_inventory.tooltip_0": "Automatically disable autofish when",
+  "options.autofish.disable_in_inventory.tooltip_1": "opening chests or inventories.",
+
   "options.autofish.sound.title": "Use Sound Detection",
   "options.autofish.sound.tooltip_0": "\u00A76Newer, more accurate detection based",
   "options.autofish.sound.tooltip_1": "\u00A76on bobber sounds rather than the",
