@@ -66,6 +66,7 @@ public class AutofishScheduler {
     private void scheduleViewTurn() {
         MinecraftClient client = MinecraftClient.getInstance();
         if(client.player == null) return;
+        if(!modAutofish.getConfig().isAutoTurnView()) return;
 
         //Save original yaw and pitch
         originalYaw = client.player.getYaw();

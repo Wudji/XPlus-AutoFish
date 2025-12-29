@@ -1,5 +1,6 @@
 package troy.autofish;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -191,11 +192,11 @@ public class Autofish {
         for(int yi = -2; yi <= 2; yi++){
             if(!(BlockPos.stream(x - 2, y + yi, z - 2, x + 2, y + yi, z + 2).allMatch((blockPos ->
                     // every block is water
-                    bobber.getWorld().getBlockState(blockPos).getBlock() == Blocks.WATER
+                    bobber.getEntityWorld().getBlockState(blockPos).getBlock() == Blocks.WATER
             )) || BlockPos.stream(x - 2, y + yi, z - 2, x + 2, y + yi, z + 2).allMatch((blockPos ->
                     // or every block is air or lily pad
-                    bobber.getWorld().getBlockState(blockPos).getBlock() == Blocks.AIR
-                            || bobber.getWorld().getBlockState(blockPos).getBlock() == Blocks.LILY_PAD
+                    bobber.getEntityWorld().getBlockState(blockPos).getBlock() == Blocks.AIR
+                            || bobber.getEntityWorld().getBlockState(blockPos).getBlock() == Blocks.LILY_PAD
             )))){
                 // didn't pass the check
                 if(!alreadyAlertOP){
@@ -250,7 +251,8 @@ public class Autofish {
 
     public boolean isBobberInWater(){
         if(client.player != null && client.world != null && client.player.fishHook != null) {
-            return client.world.getBlockState(client.player.fishHook.getBlockPos()).getBlock() == Blocks.WATER;
+            Block block = client.world.getBlockState(client.player.fishHook.getBlockPos()).getBlock();
+            return block == Blocks.WATER || block == Blocks.BUBBLE_COLUMN;
         } else{
             return false;
         }

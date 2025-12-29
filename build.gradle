@@ -1,11 +1,7 @@
 plugins {
-	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id 'fabric-loom' version '1.11-SNAPSHOT'
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
@@ -33,6 +29,9 @@ dependencies {
 	// include "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+//	modImplementation files('libs/modmenu-v15.0.0+unknown.9e6a8a7.jar')
+//	modImplementation files('libs/cloth-config-20.0.9999-fabric.jar')
+//	modImplementation files('libs/basic-math-0.6.1.jar')
 }
 
 processResources {
@@ -53,6 +52,12 @@ tasks.withType(JavaCompile) {
 java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(21))
+	}
+}
+
+loom{
+	mixin {
+		add(sourceSets.main, "autofish.refmap.json")
 	}
 }
 

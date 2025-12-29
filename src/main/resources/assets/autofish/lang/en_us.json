@@ -91,5 +91,10 @@
   "options.autofish.turn_duration.tooltip_1": "before restoring to original position.",
 
   "info.autofish.open_water_detection.fail": "§c[Autofish] The area you're fishing in is not open water!§0",
-  "info.autofish.open_water_detection.success": "§2[Autofish] You're fishing in open water!§0"
+  "info.autofish.open_water_detection.success": "§2[Autofish] You're fishing in open water!§0",
+
+  "options.autofish.guichecker.title": "Disable Autofish in container GUI",
+  "options.autofish.guichecker.tooltip_0": "Disable this mod when an container screen is set.",
+  "options.autofish.guichecker.tooltip_1": "Detects chest, inventory, amongst other container GUI screens."
+
 }

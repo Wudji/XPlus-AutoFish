@@ -9,6 +9,7 @@ public class Config {
     @Expose boolean isOpenWaterDetectEnabled = true;
     @Expose boolean noBreak = false;
     @Expose boolean persistentMode = false;
+    @Expose boolean disableInGUI = false;
     @Expose boolean useSoundDetection = false;
     @Expose boolean forceMPDetection = false;
     @Expose boolean autoTurnView = false;
@@ -135,6 +136,14 @@ public class Config {
 
     public void setReelInDelay(long reelInDelay) {
         this.reelInDelay = reelInDelay;
+    }
+
+    public boolean isDisableInGUI() {
+        return disableInGUI;
+    }
+
+    public void setDisableInGUI(boolean disableInGUI) {
+        this.disableInGUI = disableInGUI;
     }
 
     /**

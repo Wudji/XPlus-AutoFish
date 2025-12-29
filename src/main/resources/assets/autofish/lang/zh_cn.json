@@ -78,6 +78,10 @@
   "options.autofish.turn_duration.tooltip_0": "保持扭转视角的时间长度",
   "options.autofish.turn_duration.tooltip_1": "然后恢复到原始位置。",
 
+  "options.autofish.guichecker.title": "打开页面时禁用自动钓鱼",
+  "options.autofish.guichecker.tooltip_0": "当打开容器页面时禁用自动钓鱼功能。",
+  "options.autofish.guichecker.tooltip_1": "该选项会检测箱子、玩家物品栏等其他容器页面。",
+
   "options.autofish.basic.title": "基本选项",
   "options.autofish.advanced.title": "高级选项",
 
@@ -88,5 +92,6 @@
   "options.autofish.reel_in_delay.value": "%d 毫秒",
   "options.autofish.reel_in_delay.tooltip_0": "当鱼咬钩时，延迟一段时间收杆.",
   "options.autofish.reel_in_delay.tooltip_1": "将此项设置为1以禁用此功能."
+
 
 }

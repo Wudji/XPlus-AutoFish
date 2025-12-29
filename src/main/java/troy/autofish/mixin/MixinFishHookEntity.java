@@ -16,8 +16,8 @@ public class MixinFishHookEntity {
     @Shadow private int hookCountdown;
 
     //method_6949
-    @Inject(method = "tickFishingLogic", at = @At("TAIL"))
-    private void tickFishingLogic(BlockPos blockPos_1, CallbackInfo ci) {
+    @Inject(method = "tickFishingLogic(Lnet/minecraft/util/math/BlockPos;)V", at = @At("TAIL"))
+    private void tickFishingLogic(BlockPos pos, CallbackInfo ci) {
         FabricModAutofish.getInstance().tickFishingLogic(((FishingBobberEntity) (Object) this).getOwner(), hookCountdown);
     }
 }

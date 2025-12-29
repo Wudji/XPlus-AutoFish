@@ -255,6 +255,7 @@ public class AutofishScreenBuilder {
         subCatBuilderBasic.add(toggleAutoTurnView);
         subCatBuilderBasic.add(turnAngleSlider);
         subCatBuilderBasic.add(turnDurationSlider);
+        subCatBuilderBasic.setExpanded(true);
 
         SubCategoryBuilder subCatBuilderAdvanced = entryBuilder.startSubCategory(Text.translatable("options.autofish.advanced.title"));
         subCatBuilderAdvanced.add(toggleSoundDetection);
@@ -263,7 +264,7 @@ public class AutofishScreenBuilder {
         subCatBuilderAdvanced.add(randomDelaySlider);
         subCatBuilderAdvanced.add(reelInDelay);
         subCatBuilderAdvanced.add(clearLagRegexField);
-        subCatBuilderAdvanced.setExpanded(true);
+        subCatBuilderAdvanced.setExpanded(false);
 
         configCat.addEntry(subCatBuilderBasic.build());
         configCat.addEntry(subCatBuilderAdvanced.build());
