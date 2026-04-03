@@ -149,13 +149,16 @@ public class Autofish {
             //queue actions
             queueRodSwitch();
             queueRecast();
-            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, modAutofish.getConfig().getReelInDelay(), this::useRod);
+             
+            long humanDelay = 50 + (long)(Math.random() * 101); 
+
+            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, humanDelay, this::useRod);
         }
     }
 
     public void queueRecast() {
         modAutofish.getScheduler().scheduleAction(ActionType.RECAST, getRandomDelay()
-                + modAutofish.getConfig().getReelInDelay(), () -> {
+                + modAutofish.getConfig().getRecastDelay(), () -> {
             //State checks to ensure we can still fish once this runs
             if(hookExists) return;
             if(!isHoldingFishingRod()) return;
@@ -167,7 +170,7 @@ public class Autofish {
 
     private void queueRodSwitch(){
         modAutofish.getScheduler().scheduleAction(ActionType.ROD_SWITCH, (long) (getRandomDelay() * 0.83)
-                + modAutofish.getConfig().getReelInDelay(), () -> {
+                + modAutofish.getConfig().getRecastDelay(), () -> {
             if(!modAutofish.getConfig().isMultiRod()) return;
 
             switchToFirstRod(client.player);
