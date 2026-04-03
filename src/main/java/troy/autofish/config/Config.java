@@ -14,10 +14,10 @@ public class Config {
     @Expose boolean forceMPDetection = false;
     @Expose boolean autoTurnView = false;
     @Expose boolean enableArmSwing = true;
-    @Expose float turnAngle = 30.0f;
-    @Expose int turnDuration = 500;
+    @Expose float turnAngle = 0.0f;
+    @Expose int turnDuration = 231;
     @Expose long recastDelay = 1500;
-    @Expose long randomPercent = 50;
+    @Expose long randomPercent = 15;
     @Expose long reelInDelay = 1;
     @Expose String clearLagRegex = "\\[ClearLag\\] Removed [0-9]+ Entities!";
 
@@ -151,8 +151,8 @@ public class Config {
      */
     public boolean enforceConstraints() {
         boolean changed = false;
-        if (recastDelay < 500) {
-            recastDelay = 500;
+        if (recastDelay < 231) {
+            recastDelay = 231;
             changed = true;
         }
         if (clearLagRegex == null) {
