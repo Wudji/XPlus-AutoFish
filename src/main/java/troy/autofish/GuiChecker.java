@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 
 public class GuiChecker {
-    private FabricModAutofish modAutofish;
+    private AutofishMod modAutofish;
 
-    public GuiChecker(FabricModAutofish modAutofish) {
+    public GuiChecker(AutofishMod modAutofish) {
         this.modAutofish = modAutofish;
     }
 

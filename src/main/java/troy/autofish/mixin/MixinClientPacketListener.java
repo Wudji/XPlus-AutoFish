@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import troy.autofish.FabricModAutofish;
+import troy.autofish.AutofishMod;
 
 @Mixin(ClientPacketListener.class)
 public abstract class MixinClientPacketListener extends ClientCommonPacketListenerImpl implements TickablePacketListener, ClientGamePacketListener {
@@ -25,17 +25,17 @@ public abstract class MixinClientPacketListener extends ClientCommonPacketListen
 
     @Inject(method = "handleSoundEvent", at = @At("HEAD"))
     public void onPlaySound(ClientboundSoundPacket playSoundS2CPacket_1, CallbackInfo ci) {
-        if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(playSoundS2CPacket_1);
+        if (minecraft.isSameThread()) AutofishMod.getInstance().handlePacket(playSoundS2CPacket_1);
     }
 
     @Inject(method = "handleSetEntityMotion", at = @At("HEAD"))
     public void onVelocityUpdate(ClientboundSetEntityMotionPacket entityVelocityUpdateS2CPacket_1, CallbackInfo ci) {
-        if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(entityVelocityUpdateS2CPacket_1);
+        if (minecraft.isSameThread()) AutofishMod.getInstance().handlePacket(entityVelocityUpdateS2CPacket_1);
     }
 
     @Inject(method = "handleSystemChat", at = @At("HEAD"))
     public void onChatMessage(ClientboundSystemChatPacket chatMessageS2CPacket_1, CallbackInfo ci) {
-        if (minecraft.isSameThread()) FabricModAutofish.getInstance().handleChat(chatMessageS2CPacket_1);
+        if (minecraft.isSameThread()) AutofishMod.getInstance().handleChat(chatMessageS2CPacket_1);
     }
 
 }

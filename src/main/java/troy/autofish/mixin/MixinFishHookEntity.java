@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import troy.autofish.FabricModAutofish;
+import troy.autofish.AutofishMod;
 
 @Mixin(FishingHook.class)
 public class MixinFishHookEntity {
@@ -18,6 +18,6 @@ public class MixinFishHookEntity {
     //method_6949
     @Inject(method = "catchingFish(Lnet/minecraft/core/BlockPos;)V", at = @At("TAIL"))
     private void tickFishingLogic(BlockPos pos, CallbackInfo ci) {
-        FabricModAutofish.getInstance().tickFishingLogic(((FishingHook) (Object) this).getOwner(), nibble);
+        AutofishMod.getInstance().tickFishingLogic(((FishingHook) (Object) this).getOwner(), nibble);
     }
 }

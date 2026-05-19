@@ -1,42 +1,47 @@
 package troy.autofish.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
-import fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents;
-import net.fabricmc.loader.api.FabricLoader;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import troy.autofish.FabricModAutofish;
-
-import java.io.File;
-import java.nio.charset.Charset;
+import troy.autofish.AutofishMod;
 
 public class ConfigManager {
 
-    private static final String CONFIG_FILE_NAME = FabricModAutofish.MOD_ID + "-client.toml";
+    private static final String CONFIG_FILE_NAME = AutofishMod.MOD_ID + "-client.toml";
     private static final Pair<ConfigSpec, ModConfigSpec> SPEC_PAIR = new ModConfigSpec.Builder().configure(ConfigSpec::new);
     private static final ConfigSpec SPEC_VALUES = SPEC_PAIR.getLeft();
     private static final ModConfigSpec SPEC = SPEC_PAIR.getRight();
 
     private final Config config = new Config();
 
-    public ConfigManager(FabricModAutofish modAutofish) {
-        ModConfigEvents.loading(FabricModAutofish.MOD_ID).register(this::onConfigChanged);
-        ModConfigEvents.reloading(FabricModAutofish.MOD_ID).register(this::onConfigChanged);
-        ConfigRegistry.INSTANCE.register(FabricModAutofish.MOD_ID, ModConfig.Type.CLIENT, SPEC, CONFIG_FILE_NAME);
-
-        syncFromSpec();
+    public ConfigManager(net.neoforged.bus.api.IEventBus modEventBus) {
+        // Register config
+        ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.CLIENT, SPEC, CONFIG_FILE_NAME);
+        
+        // Register event listeners on the MOD event bus (not game bus)
+        modEventBus.register(this);
+        
+        // Do NOT call syncFromSpec() here - config is not loaded yet!
+        // It will be called when ModConfigEvent.Loading fires
     }
 
-    private void onConfigChanged(ModConfig modConfig) {
-        if (modConfig.getType() == ModConfig.Type.CLIENT) {
+    @SubscribeEvent
+    public void onConfigChanged(ModConfigEvent.Loading event) {
+        if (event.getConfig().getType() == ModConfig.Type.CLIENT) {
             syncFromSpec();
         }
     }
 
+    @SubscribeEvent
+    public void onConfigReloading(ModConfigEvent.Reloading event) {
+        if (event.getConfig().getType() == ModConfig.Type.CLIENT) {
+            syncFromSpec();
+        }
+    }
 
     private void copyToSpec(Config source) {
         SPEC_VALUES.autofishEnabled.set(source.isAutofishEnabled());

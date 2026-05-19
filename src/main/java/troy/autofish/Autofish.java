@@ -31,7 +31,7 @@ import troy.autofish.scheduler.ActionType;
 public class Autofish {
 
     private Minecraft client;
-    private FabricModAutofish modAutofish;
+    private AutofishMod modAutofish;
     private FishMonitorMP fishMonitorMP;
 
     private boolean hookExists = false;
@@ -40,13 +40,15 @@ public class Autofish {
 
     public long timeMillis = 0L;
 
-    public Autofish(FabricModAutofish modAutofish) {
+    public Autofish(AutofishMod modAutofish) {
         this.modAutofish = modAutofish;
-        this.client = Minecraft.getInstance();
+        // Do NOT call Minecraft.getInstance() here - it's null during mod construction
         setDetection();
 
         //Initiate the repeating action for persistent mode casting
         modAutofish.getScheduler().scheduleRepeatingAction(10000, () -> {
+            Minecraft client = Minecraft.getInstance();
+            if(client == null || client.player == null) return;
             if(!modAutofish.getConfig().isPersistentMode()) return;
             if(shouldPreventBreak()) return;
             if(!isHoldingFishingRod()) return;
@@ -89,6 +91,8 @@ public class Autofish {
      */
     public void tickFishingLogic(Entity owner, int ticksCatchable) {
         //This callback will come from the Server thread. Use client.execute() to run this action in the Render thread
+        Minecraft client = Minecraft.getInstance();
+        if(client == null) return;
         client.execute(() -> {
             if (modAutofish.getConfig().isAutofishEnabled() && !shouldUseMPDetection()) {
                 //null checks for sanity
@@ -108,6 +112,8 @@ public class Autofish {
      */
     public void handlePacket(Packet<?> packet) {
         if (modAutofish.getConfig().isAutofishEnabled()) {
+            Minecraft client = Minecraft.getInstance();
+            if(client == null) return;
             if (shouldUseMPDetection()) {
                 fishMonitorMP.handlePacket(this, packet, client);
             }
@@ -120,6 +126,8 @@ public class Autofish {
      */
     public void handleChat(ClientboundSystemChatPacket packet) {
         if (modAutofish.getConfig().isAutofishEnabled()) {
+            Minecraft client = Minecraft.getInstance();
+            if(client == null) return;
             if (!client.isLocalServer()) {
                 if (isHoldingFishingRod()) {
                     //check that either the hook exists, or it was just removed
@@ -142,7 +150,8 @@ public class Autofish {
     public void catchFish() {
         if(!modAutofish.getScheduler().isRecastQueued()) { //prevents double reels
             modAutofish.getScheduler().onFishCaught();
-            if (client.player != null) {
+            Minecraft client = Minecraft.getInstance();
+            if (client != null && client.player != null) {
                 detectOpenWater(client.player.fishing);
             }
             //queue actions
@@ -262,7 +271,8 @@ public class Autofish {
     }
 
     public boolean isBobberInWater(){
-        if(client.player != null && client.level != null && client.player.fishing != null) {
+        Minecraft client = Minecraft.getInstance();
+        if(client != null && client.player != null && client.level != null && client.player.fishing != null) {
             Block block = client.level.getBlockState(client.player.fishing.blockPosition()).getBlock();
             return block == Blocks.WATER || block == Blocks.BUBBLE_COLUMN;
         } else{
@@ -271,7 +281,8 @@ public class Autofish {
     }
 
     public void useRod() {
-        if(client.player != null && client.level != null) {
+        Minecraft client = Minecraft.getInstance();
+        if(client != null && client.player != null && client.level != null) {
             InteractionHand hand = getCorrectHand();
             if (modAutofish.getConfig().isEnableArmSwing()) {
                 client.player.swing(hand);
@@ -291,15 +302,18 @@ public class Autofish {
     }
 
     private InteractionHand getCorrectHand() {
+        Minecraft client = Minecraft.getInstance();
+        if (client == null || client.player == null) return InteractionHand.MAIN_HAND;
         if (!modAutofish.getConfig().isMultiRod()) {
-            if (client.player != null && isItemFishingRod(client.player.getOffhandItem().getItem()))
+            if (isItemFishingRod(client.player.getOffhandItem().getItem()))
                 return InteractionHand.OFF_HAND;
         }
         return InteractionHand.MAIN_HAND;
     }
 
     private ItemStack getHeldItem() {
-        if (client.player == null) return ItemStack.EMPTY;
+        Minecraft client = Minecraft.getInstance();
+        if (client == null || client.player == null) return ItemStack.EMPTY;
 
         if (!modAutofish.getConfig().isMultiRod()) {
             if (isItemFishingRod(client.player.getOffhandItem().getItem()))
@@ -322,6 +336,8 @@ public class Autofish {
 
     private boolean shouldUseMPDetection(){
         if(modAutofish.getConfig().isForceMPDetection()) return true;
+        Minecraft client = Minecraft.getInstance();
+        if(client == null) return false;
         return !client.isLocalServer();
     }
 

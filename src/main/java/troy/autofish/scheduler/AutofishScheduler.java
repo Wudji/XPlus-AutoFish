@@ -1,14 +1,14 @@
 package troy.autofish.scheduler;
 
 import net.minecraft.client.Minecraft;
-import troy.autofish.FabricModAutofish;
+import troy.autofish.AutofishMod;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutofishScheduler {
 
-    private FabricModAutofish modAutofish;
+    private AutofishMod modAutofish;
     //Actions that run once then delete from queue
     private List<Action> queuedActions = new ArrayList<>();
     //Actions that repeat indefinitely
@@ -23,7 +23,7 @@ public class AutofishScheduler {
     private boolean isTurning = false;
     private boolean turnLeft = true;
 
-    public AutofishScheduler(FabricModAutofish modAutofish) {
+    public AutofishScheduler(AutofishMod modAutofish) {
         this.modAutofish = modAutofish;
     }
 
