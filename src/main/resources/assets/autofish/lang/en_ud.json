@@ -25,8 +25,8 @@
   "options.autofish.advanced.title": "suoᴉʇdO pǝɔuɐʌp∀",
   "options.autofish.open_water_detection.title": "Enable Open Water detection",
   "options.autofish.open_water_detection.title.tooltip": "In game versions above 20w12a(1.16), You can only get treasure loot at open water.\nThis will alert you when you are not fishing at open water.",
-  "options.autofish.random_delay.title": "Random Recast Delay Field",
-  "options.autofish.random_delay.title.tooltip": "Add ±% randomness to the Recast Delay For example: Set this to 20% will make a 1500ms delay fall in 1200-1800ms (1500ms ±20%).\nSet this to 0 to disable this function.",
+  "options.autofish.random_delay.title": "Random Recast/Reel-in Delay Field",
+  "options.autofish.random_delay.title.tooltip": "Add ±% randomness to the Recast/Reel-in Delay For example: Set this to 20% will make a 1500ms delay fall in 1200-1800ms (1500ms ±20%).\nSet this to 0 to disable this function.",
   "options.autofish.random_delay.value": "%d percent",
   "info.autofish.open_water_detection.fail": "§c[Autofish] The area you're fishing in is not open water!§0",
   "info.autofish.open_water_detection.success": "§2[Autofish] You're fishing in open water!§0"

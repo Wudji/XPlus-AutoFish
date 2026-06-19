@@ -145,7 +145,7 @@ public class ConfigManager {
             this.recastDelay = builder.comment("Delay before recasting after a catch, in milliseconds.")
                     .translation("options.autofish.recast_delay.title")
                     .defineInRange("recastDelay", 1500L, 500L, 5000L);
-            this.randomPercent = builder.comment("Randomize recast delay by up to this percentage.")
+            this.randomPercent = builder.comment("Randomize recast & reel-in delay by up to this percentage.")
                     .translation("options.autofish.random_delay.title")
                     .defineInRange("randomDelayPercent", 50L, 0L, 75L);
             this.reelInDelay = builder.comment("Delay before reeling in after a bite, in milliseconds.")

@@ -148,7 +148,7 @@ public class Autofish {
             //queue actions
             queueRodSwitch();
             queueRecast();
-            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, modAutofish.getConfig().getReelInDelay(), this::useRod);
+            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, getRandomDelayReelIn(), this::useRod);
         }
     }
 
@@ -330,6 +330,13 @@ public class Autofish {
         double randomDelayRatio = modAutofish.getConfig().getRandomDelay() * 0.01;
         double randomOffset = (Math.random() * 2 - 1) * randomDelayRatio;
         return (long) (recastDelay * (1 + randomOffset));
+    }
+
+    private long getRandomDelayReelIn(){
+        long reelInDelay = modAutofish.getConfig().getReelInDelay();
+        double randomDelayRatio = modAutofish.getConfig().getRandomDelay() * 0.01;
+        double randomOffset = (Math.random() * 2 - 1) * randomDelayRatio;
+        return (long) (reelInDelay * (1 + randomOffset));
     }
 
     private boolean shouldPreventBreak(){
