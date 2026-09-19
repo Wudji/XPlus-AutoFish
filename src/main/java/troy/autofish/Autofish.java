@@ -298,14 +298,14 @@ public class Autofish {
         if(client.player != null && client.level != null) {
             InteractionHand hand = getCorrectHand();
             if (modAutofish.getConfig().isEnableArmSwing()) {
-                client.player.swing(hand);
+                client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), false);
             }
             InteractionResult actionResult = null;
             if (client.gameMode != null) {
                 actionResult = client.gameMode.useItem(client.player, hand);
             }
             if (actionResult != null && actionResult.consumesAction()) {
-                client.gameRenderer.itemInHandRenderer.itemUsed(hand);
+                client.player.itemUsed(hand);
                 // Start the persistent-mode timeout from the actual rod action.
                 // This also prevents a due repeating check from casting again in
                 // the same tick as a scheduled recast.

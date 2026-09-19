@@ -10,7 +10,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import org.lwjgl.glfw.GLFW;
 import troy.autofish.config.Config;
 import troy.autofish.config.ConfigManager;
 import troy.autofish.gui.AutofishScreenBuilder;
@@ -41,8 +40,8 @@ public class FabricModAutofish implements ClientModInitializer {
         autofishGuiKey = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(
                         "key.autofish.open_gui",
-                        InputConstants.Type.KEYSYM,
-                        GLFW.GLFW_KEY_V,
+                        InputConstants.Type.KEYBOARD,
+                        InputConstants.KEY_V,
                         CATEGORY
                 )
         );

@@ -54,6 +54,10 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+
 	sourceCompatibility = JavaVersion.VERSION_25
 	targetCompatibility = JavaVersion.VERSION_25
 }
@@ -81,11 +85,5 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
-	}
-}
-
-loom{
-	mixin {
-		add(sourceSets.main, "autofish.refmap.json")
 	}
 }
