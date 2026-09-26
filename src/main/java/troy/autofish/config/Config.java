@@ -11,6 +11,7 @@ public class Config {
     @Expose boolean persistentMode = false;
     @Expose boolean disableInGUI = false;
     @Expose boolean useSoundDetection = false;
+    @Expose boolean useDataPacketDetection = false;
     @Expose boolean forceMPDetection = false;
     @Expose boolean autoTurnView = false;
     @Expose boolean enableArmSwing = true;
@@ -41,6 +42,10 @@ public class Config {
 
     public boolean isUseSoundDetection() {
         return useSoundDetection;
+    }
+
+    public boolean isUseDataPacketDetection() {
+        return useDataPacketDetection;
     }
 
     public boolean isForceMPDetection() { return forceMPDetection; }
@@ -103,6 +108,10 @@ public class Config {
 
     public void setUseSoundDetection(boolean useSoundDetection) {
         this.useSoundDetection = useSoundDetection;
+    }
+
+    public void setUseDataPacketDetection(boolean useDataPacketDetection) {
+        this.useDataPacketDetection = useDataPacketDetection;
     }
 
     public void setForceMPDetection(boolean forceMPDetection) { this.forceMPDetection = forceMPDetection; }

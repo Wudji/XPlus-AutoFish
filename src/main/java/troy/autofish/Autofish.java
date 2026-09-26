@@ -23,6 +23,7 @@ import net.minecraft.util.StringUtil;
 import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import troy.autofish.monitor.FishMonitorMP;
+import troy.autofish.monitor.FishMonitorMPData;
 import troy.autofish.monitor.FishMonitorMPMotion;
 import troy.autofish.monitor.FishMonitorMPSound;
 import troy.autofish.scheduler.Action;
@@ -341,7 +342,9 @@ public class Autofish {
     }
 
     public void setDetection() {
-        if (modAutofish.getConfig().isUseSoundDetection()) {
+        if (modAutofish.getConfig().isUseDataPacketDetection()) {
+            fishMonitorMP = new FishMonitorMPData();
+        } else if (modAutofish.getConfig().isUseSoundDetection()) {
             fishMonitorMP = new FishMonitorMPSound();
         } else {
             fishMonitorMP = new FishMonitorMPMotion();

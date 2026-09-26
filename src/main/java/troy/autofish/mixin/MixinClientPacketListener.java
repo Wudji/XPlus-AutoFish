@@ -7,6 +7,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.TickablePacketListener;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
@@ -31,6 +32,11 @@ public abstract class MixinClientPacketListener extends ClientCommonPacketListen
     @Inject(method = "handleSetEntityMotion", at = @At("HEAD"))
     public void onVelocityUpdate(ClientboundSetEntityMotionPacket entityVelocityUpdateS2CPacket_1, CallbackInfo ci) {
         if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(entityVelocityUpdateS2CPacket_1);
+    }
+
+    @Inject(method = "handleSetEntityData", at = @At("HEAD"))
+    public void onSetEntityData(ClientboundSetEntityDataPacket entityDataS2CPacket_1, CallbackInfo ci) {
+        if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(entityDataS2CPacket_1);
     }
 
     @Inject(method = "handleSystemChat", at = @At("HEAD"))
