@@ -14,6 +14,8 @@
   "options.autofish.sound.title": "Use Sound Detection",
   "options.autofish.sound.title.tooltip": "§6Newer, more accurate detection based §6on bobber sounds rather than the §6standard hook movement detection.\n- You must be somewhat close to the hook for this to work.\n- If other players' hooks are near yours, it can falsely trigger a catch!",
   "options.autofish.sound.title.tooltip.warning": "§cNote: this option only affects §cmultiplayer. Singleplayer uses its own §cdetection.",
+  "options.autofish.data_packet.title": "Use Packet Data Detection",
+  "options.autofish.data_packet.title.tooltip": "§6Detects bites from the bobber's entity data packets.\n- Reads the biting flag sent by the server, more accurate than motion or sound detection.\n- Works even when you are far away from the hook.\n- Takes priority over sound detection.",
   "options.autofish.multiplayer_compat.title": "Force Multiplayer Detection (Mod Compatibility)",
   "options.autofish.multiplayer_compat.title.tooltip": "Forces the use of multiplayer detection while in singleplayer.\nThis provides compatibility with third party mods.",
   "options.autofish.recast_delay.title": "Recast Delay (ms)",

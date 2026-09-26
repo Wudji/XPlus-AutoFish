@@ -14,6 +14,8 @@
   "options.autofish.sound.title": "소리 감지 방식 사용",
   "options.autofish.sound.title.tooltip": "§6낚시찌의 움직임을 감지하는 것보다 §6정확한, 새로운 방식입니다.\n§6이 방식은 낚시찌가 첨벙 거리는 소리를 감지합니다.\n- 이 방식을 사용하려면 던진 낚시찌가 플레이어와 충분히 가까워야 합니다.\n- 다른 플레이어의 낚시찌가 당신 근처에 있을 경우, 오작동의 우려가 있습니다.",
   "options.autofish.sound.title.tooltip.warning": "§c이 옵션은 멀티플레이에서만 §c활성화 됩니다. 싱글플레이에서는 다른 방식을 §c사용합니다.",
+  "options.autofish.data_packet.title": "패킷 데이터 감지 사용",
+  "options.autofish.data_packet.title.tooltip": "§6낚시찌의 엔티티 데이터 패킷으로 물고기 입질을 감지합니다.\n- 서버가 본내는 입질 플래그를 직접 읽어 움직임/소리 감지보다 정확합니다.\n- 낚시찌에서 멀리 떨어져 있어도 작동합니다.\n- 소리 감지보다 우선 적용됩니다.",
   "options.autofish.multiplayer_compat.title": "감지 방식 고정",
   "options.autofish.multiplayer_compat.title.tooltip": "싱글플레이의 경우에도 멀티플레이의 경우처럼 소리 감지 방식을 이용하도록 강제합니다.\n다른 모드와의 호환성을 위해 사용할 수 있습니다.",
   "options.autofish.recast_delay.title": "낚시 간격 (밀리초)",

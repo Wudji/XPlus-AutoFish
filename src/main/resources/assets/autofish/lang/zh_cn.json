@@ -17,6 +17,8 @@
   "options.autofish.sound.title": "使用声音检测",
   "options.autofish.sound.title.tooltip": "§6基于浮标声音的更新 §6他将更准确的检测收杆时机 §6而不是简单的浮标移动检测 - 你必须离钩子很近 才能让它正常工作.\n- 如果其他玩家的钩子靠近你的钩子 它可能会错误地触发一次收杆!",
   "options.autofish.sound.title.tooltip.warning": "§c注意: 这个选项只影响多人游戏 §c单人游戏使用已有的检测事件 §c可开启“多人游戏检测”使用",
+  "options.autofish.data_packet.title": "使用数据包检测",
+  "options.autofish.data_packet.title.tooltip": "§6基于浮标的实体数据包检测鱼是否咬钩\n- 直接读取服务器发送的咬钩标志 比动作/声音检测更准确\n- 距离浮标较远时也能正常工作\n- 优先级高于声音检测\n\n§c注意: 这个选项只影响多人游戏 §c可开启“多人游戏检测”在单人使用",
   "options.autofish.multiplayer_compat.title": "多人游戏检测",
   "options.autofish.multiplayer_compat.title.tooltip": "强制玩家在单人游戏中 使用多人游戏的检测模式.\n保证第三方MOD的兼容性",
   "options.autofish.recast_delay.title": "重新投掷延迟",

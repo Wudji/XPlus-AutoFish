@@ -16,6 +16,8 @@
   "options.autofish.sound.title": "使用聲音偵測",
   "options.autofish.sound.title.tooltip": "§6基於浮標聲音的更新、更準確的偵測， §6而不是標準的魚鉤移動偵測。\n§6標準的魚鉤移動偵測。\n- 你必須離魚鉤一定距離才能 正常運作。\n- 如果其他玩家的魚鉤靠近 你的魚鉤，可能會錯誤地觸發釣到魚！",
   "options.autofish.sound.title.tooltip.warning": "§c注意：此選項僅影響 §c多人遊戲。單人遊戲使用其自身的 §c偵測。",
+  "options.autofish.data_packet.title": "使用資料包偵測",
+  "options.autofish.data_packet.title.tooltip": "§6基於浮標的實體資料包偵測魚是否咬鉤\n- 直接讀取伺服器傳送的咬鉤標誌，比移動/聲音偵測更準確\n- 距離浮標較遠時也能正常運作\n- 優先級高於聲音偵測",
   "options.autofish.multiplayer_compat.title": "強制多人遊戲偵測（模組相容性）",
   "options.autofish.multiplayer_compat.title.tooltip": "在單人遊戲中強制使用多人遊戲 偵測。\n這提供了與第三方模組的相容性。",
   "options.autofish.recast_delay.title": "重新拋竿延遲（毫秒）",

@@ -22,8 +22,10 @@ public class ConfigManager {
     private static final ModConfigSpec SPEC = SPEC_PAIR.getRight();
 
     private final Config config = new Config();
+    private final FabricModAutofish modAutofish;
 
     public ConfigManager(FabricModAutofish modAutofish) {
+        this.modAutofish = modAutofish;
         ModConfigEvents.loading(FabricModAutofish.MOD_ID).register(this::onConfigChanged);
         ModConfigEvents.reloading(FabricModAutofish.MOD_ID).register(this::onConfigChanged);
         ConfigRegistry.INSTANCE.register(FabricModAutofish.MOD_ID, ModConfig.Type.CLIENT, SPEC, CONFIG_FILE_NAME);
@@ -34,6 +36,10 @@ public class ConfigManager {
     private void onConfigChanged(ModConfig modConfig) {
         if (modConfig.getType() == ModConfig.Type.CLIENT) {
             syncFromSpec();
+            // Rebuild the fish monitor so detection-mode changes apply without a restart.
+            if (modAutofish.getAutofish() != null) {
+                modAutofish.getAutofish().setDetection();
+            }
         }
     }
 
@@ -46,6 +52,7 @@ public class ConfigManager {
         SPEC_VALUES.persistentMode.set(source.isPersistentMode());
         SPEC_VALUES.disableInGui.set(source.isDisableInGUI());
         SPEC_VALUES.useSoundDetection.set(source.isUseSoundDetection());
+        SPEC_VALUES.useDataPacketDetection.set(source.isUseDataPacketDetection());
         SPEC_VALUES.forceMpDetection.set(source.isForceMPDetection());
         SPEC_VALUES.autoTurnView.set(source.isAutoTurnView());
         SPEC_VALUES.enableArmSwing.set(source.isEnableArmSwing());
@@ -65,6 +72,7 @@ public class ConfigManager {
         config.setPersistentMode(SPEC_VALUES.persistentMode.get());
         config.setDisableInGUI(SPEC_VALUES.disableInGui.get());
         config.setUseSoundDetection(SPEC_VALUES.useSoundDetection.get());
+        config.setUseDataPacketDetection(SPEC_VALUES.useDataPacketDetection.get());
         config.setForceMPDetection(SPEC_VALUES.forceMpDetection.get());
         config.setAutoTurnView(SPEC_VALUES.autoTurnView.get());
         config.setEnableArmSwing(SPEC_VALUES.enableArmSwing.get());
@@ -89,6 +97,7 @@ public class ConfigManager {
         final ModConfigSpec.BooleanValue persistentMode;
         final ModConfigSpec.BooleanValue disableInGui;
         final ModConfigSpec.BooleanValue useSoundDetection;
+        final ModConfigSpec.BooleanValue useDataPacketDetection;
         final ModConfigSpec.BooleanValue forceMpDetection;
         final ModConfigSpec.BooleanValue autoTurnView;
         final ModConfigSpec.BooleanValue enableArmSwing;
@@ -139,6 +148,9 @@ public class ConfigManager {
             this.useSoundDetection = builder.comment("Detect bites from bobber sounds instead of bobber motion.")
                     .translation("options.autofish.sound.title")
                     .define("useSoundDetection", false);
+            this.useDataPacketDetection = builder.comment("Detect bites from the bobber's entity data packets. Takes priority over sound detection.")
+                    .translation("options.autofish.data_packet.title")
+                    .define("useDataPacketDetection", false);
             this.forceMpDetection = builder.comment("Force multiplayer-style detection even in local worlds.")
                     .translation("options.autofish.multiplayer_compat.title")
                     .define("forceMultiplayerDetection", false);

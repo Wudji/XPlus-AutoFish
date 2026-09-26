@@ -16,6 +16,8 @@
   "options.autofish.sound.title": "倚聲感知",
   "options.autofish.sound.title.tooltip": "§6新式精確檢測，據以 §6浮標聲響為基，非關其他 §6常規鉤動察覺 -此法生效 需近鉤方能 -他人鉤近汝鉤 或致誤報魚獲！",
   "options.autofish.sound.title.tooltip.warning": "§c註：此項僅影響 §c於眾戲，獨戲則自備察別 §c獨戲則自備察別",
+  "options.autofish.data_packet.title": "倚封包感知",
+  "options.autofish.data_packet.title.tooltip": "§6據浮標之實體封包察魚之咬鉤\n- 直讀伺服所發咬鉤之訊 精於動靜聲息之察\n- 雖遠於鉤 亦能奏效\n- 其序先於倚聲感知",
   "options.autofish.multiplayer_compat.title": "強用眾戲感知",
   "options.autofish.multiplayer_compat.title.tooltip": "獨戲戲者 須遵眾戲檢 以保外添改囊相容",
   "options.autofish.recast_delay.title": "再投延逾（毫秒）",
