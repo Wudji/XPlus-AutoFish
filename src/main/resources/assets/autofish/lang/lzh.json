@@ -1,6 +1,7 @@
 {
   "key.autofish.open_gui": "啟自動釣魚介面",
   "options.autofish.title": "自動釣魚置設",
+  "options.autofish.config": "通設",
 
   "options.autofish.toggle.on": "\u00A7a開",
   "options.autofish.toggle.off": "\u00A7e關",
