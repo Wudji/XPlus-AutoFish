@@ -2,6 +2,7 @@ package troy.autofish;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -45,6 +46,8 @@ public class FabricModAutofish implements ClientModInitializer {
         this.scheduler = new AutofishScheduler(this);
         //Create Autofisher instance
         this.autofish = new Autofish(this);
+        ClientLifecycleEvents.CLIENT_STARTED.register(client ->
+                client.getSoundManager().registerListener((sound, soundEvents, range) -> autofish.handleSoundPlayback(sound)));
         this.guiChecker = new GuiChecker(this);
 
     }

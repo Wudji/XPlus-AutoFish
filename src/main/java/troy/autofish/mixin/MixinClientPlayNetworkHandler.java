@@ -10,6 +10,7 @@ import net.minecraft.network.listener.TickablePacketListener;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlaySoundFromEntityS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,6 +27,11 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonNetworkH
     @Inject(method = "onPlaySound", at = @At("HEAD"))
     public void onPlaySound(PlaySoundS2CPacket playSoundS2CPacket_1, CallbackInfo ci) {
         if (client.isOnThread()) FabricModAutofish.getInstance().handlePacket(playSoundS2CPacket_1);
+    }
+
+    @Inject(method = "onPlaySoundFromEntity", at = @At("HEAD"))
+    public void onEntitySound(PlaySoundFromEntityS2CPacket packet, CallbackInfo ci) {
+        if (client.isOnThread()) FabricModAutofish.getInstance().handlePacket(packet);
     }
 
     @Inject(method = "onEntityVelocityUpdate", at = @At("HEAD"))
