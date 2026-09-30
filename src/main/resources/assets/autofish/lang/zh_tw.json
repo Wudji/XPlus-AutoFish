@@ -1,6 +1,7 @@
 {
   "key.autofish.open_gui": "開啟 XPlus 自動釣魚介面",
   "options.autofish.title": "XPlus 自動釣魚設定 （XPlus Autofish）",
+  "options.autofish.config": "一般設定",
 
   "options.autofish.toggle.on": "\u00A7a開啟",
   "options.autofish.toggle.off": "\u00A7e關閉",

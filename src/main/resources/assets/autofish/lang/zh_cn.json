@@ -2,6 +2,7 @@
   "modmenu.descriptionTranslation.autofish": "钓鱼要到岛上钓，不到岛上钓不到。",
   "key.autofish.open_gui": "打开Autofish界面",
   "options.autofish.title": "XPlus Autofish设置",
+  "options.autofish.config": "常规设置",
 
   "options.autofish.toggle.on": "\u00A7a开",
   "options.autofish.toggle.off": "\u00A7e关",

@@ -1,6 +1,7 @@
 {
   "key.autofish.open_gui": "자동낚시 GUI 열기",
   "options.autofish.title": "자동낚시 설정",
+  "options.autofish.config": "일반 설정",
 
   "options.autofish.toggle.on": "\u00A7aOn",
   "options.autofish.toggle.off": "\u00A7eOff",
