@@ -11,6 +11,19 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Function;
+import net.minecraft.locale.Language;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.sounds.WeighedSoundEvents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluids;
+
 
 public class AutoFishConfigScreen {
     private static final Function<Boolean, Component> yesNoTextSupplier = bool -> {
@@ -30,6 +43,7 @@ public class AutoFishConfigScreen {
                 .setDoesConfirmSave(true)
                 .setSavingRunnable(() -> {
                     modAutofish.getConfig().enforceConstraints();
+                    modAutofish.getAutofish().setDetection();
                     modAutofish.getConfigManager().writeConfig(true);
                 });
 
@@ -108,18 +122,7 @@ public class AutoFishConfigScreen {
         //Enable Sound Detection
         AbstractConfigListEntry toggleSoundDetection = entryBuilder.startBooleanToggle(Component.translatable("options.autofish.sound.title"), config.isUseSoundDetection())
                 .setDefaultValue(defaults.isUseSoundDetection())
-                .setTooltip(
-                        Component.translatable("options.autofish.sound.tooltip_0"),
-                        Component.translatable("options.autofish.sound.tooltip_1"),
-                        Component.translatable("options.autofish.sound.tooltip_2"),
-                        Component.translatable("options.autofish.sound.tooltip_3"),
-                        Component.translatable("options.autofish.sound.tooltip_4"),
-                        Component.translatable("options.autofish.sound.tooltip_5"),
-                        Component.translatable("options.autofish.sound.tooltip_6"),
-                        Component.translatable("options.autofish.sound.tooltip_7"),
-                        Component.translatable("options.autofish.sound.tooltip_8"),
-                        Component.translatable("options.autofish.sound.tooltip_9")
-                )
+                .setTooltip(Component.translatable("options.autofish.sound.title.tooltip"))
                 .setSaveConsumer(newValue -> {
                     modAutofish.getConfig().setUseSoundDetection(newValue);
                     modAutofish.getAutofish().setDetection();
@@ -129,12 +132,8 @@ public class AutoFishConfigScreen {
 
         //Enable Force MP Detection
         AbstractConfigListEntry toggleForceMPDetection = entryBuilder.startBooleanToggle(Component.translatable("options.autofish.multiplayer_compat.title"), config.isForceMPDetection())
-                .setDefaultValue(defaults.isPersistentMode())
-                .setTooltip(
-                        Component.translatable("options.autofish.multiplayer_compat.tooltip_0"),
-                        Component.translatable("options.autofish.multiplayer_compat.tooltip_1"),
-                        Component.translatable("options.autofish.multiplayer_compat.tooltip_2")
-                )
+                .setDefaultValue(defaults.isForceMPDetection())
+                .setTooltip(Component.translatable("options.autofish.multiplayer_compat.title.tooltip"))
                 .setSaveConsumer(newValue -> {
                     modAutofish.getConfig().setForceMPDetection(newValue);
                 })
@@ -242,8 +241,6 @@ public class AutoFishConfigScreen {
         subCatBuilderBasic.setExpanded(true);
 
         SubCategoryBuilder subCatBuilderAdvanced = entryBuilder.startSubCategory(Component.translatable("options.autofish.advanced.title"));
-        subCatBuilderAdvanced.add(toggleSoundDetection);
-        subCatBuilderAdvanced.add(toggleForceMPDetection);
         subCatBuilderAdvanced.add(recastDelaySlider);
         subCatBuilderAdvanced.add(randomDelaySlider);
         subCatBuilderAdvanced.add(reelInDelay);
@@ -254,7 +251,97 @@ public class AutoFishConfigScreen {
         configCat.addEntry(subCatBuilderBasic.build());
         configCat.addEntry(subCatBuilderAdvanced.build());
 
+        List<String> soundIds = BuiltInRegistries.SOUND_EVENT.keySet().stream().map(Identifier::toString).sorted().toList();
+        List<String> fluidIds = BuiltInRegistries.FLUID.keySet().stream().filter(value -> {
+            Fluid fluid = BuiltInRegistries.FLUID.getValue(value);
+            return fluid != Fluids.EMPTY && (!(fluid instanceof FlowingFluid flowing) || fluid == flowing.getSource());
+        }).map(Identifier::toString).sorted().toList();
+
+        AbstractConfigListEntry<String> reelInSound = registryEntry(entryBuilder, "reel_in_sound",
+                config.getReelInSound(), defaults.getReelInSound(), soundIds, AutoFishConfigScreen::soundName, config::setReelInSound);
+        AbstractConfigListEntry<String> fishingFluid = registryEntry(entryBuilder, "fishing_fluid",
+                config.getFishingFluid(), defaults.getFishingFluid(), fluidIds, AutoFishConfigScreen::fluidName, config::setFishingFluid);
+        AbstractConfigListEntry<Config.SoundDetectionSource> soundSource = entryBuilder
+                .startEnumSelector(Component.translatable("options.autofish.sound_detection_source.title"),
+                        Config.SoundDetectionSource.class, config.getSoundDetectionSource())
+                .setDefaultValue(defaults.getSoundDetectionSource())
+                .setEnumNameProvider(value -> Component.translatable("options.autofish.sound_detection_source." + value.name().toLowerCase(Locale.ROOT)))
+                .setTooltip(Component.translatable("options.autofish.sound_detection_source.title.tooltip"))
+                .setSaveConsumer(config::setSoundDetectionSource).build();
+        AbstractConfigListEntry<Config.SoundDistanceOrigin> soundOrigin = entryBuilder
+                .startEnumSelector(Component.translatable("options.autofish.sound_distance_origin.title"),
+                        Config.SoundDistanceOrigin.class, config.getSoundDistanceOrigin())
+                .setDefaultValue(defaults.getSoundDistanceOrigin())
+                .setEnumNameProvider(value -> Component.translatable("options.autofish.sound_distance_origin." + value.name().toLowerCase(Locale.ROOT)))
+                .setTooltip(Component.translatable("options.autofish.sound_distance_origin.title.tooltip"))
+                .setSaveConsumer(config::setSoundDistanceOrigin).build();
+        AbstractConfigListEntry<Integer> soundRange = entryBuilder
+                .startIntSlider(Component.translatable("options.autofish.sound_detection_range.title"), config.getSoundDetectionRange(), 1, 32)
+                .setDefaultValue(defaults.getSoundDetectionRange())
+                .setTooltip(Component.translatable("options.autofish.sound_detection_range.title.tooltip"))
+                .setSaveConsumer(config::setSoundDetectionRange).build();
+        AbstractConfigListEntry<Integer> reelInCount = entryBuilder
+                .startIntSlider(Component.translatable("options.autofish.reel_in_count.title"), config.getReelInCount(), 1, 20)
+                .setDefaultValue(defaults.getReelInCount())
+                .setTooltip(Component.translatable("options.autofish.reel_in_count.title.tooltip"))
+                .setSaveConsumer(config::setReelInCount).build();
+
+        ConfigCategory compatibility = builder.getOrCreateCategory(Component.translatable("options.autofish.compatibility.title"));
+        compatibility.addEntry(toggleSoundDetection);
+        compatibility.addEntry(toggleForceMPDetection);
+        compatibility.addEntry(reelInSound);
+        compatibility.addEntry(soundSource);
+        compatibility.addEntry(soundOrigin);
+        compatibility.addEntry(soundRange);
+        compatibility.addEntry(fishingFluid);
+        compatibility.addEntry(reelInCount);
+
         return builder.build();
 
+    }
+
+    private static AbstractConfigListEntry<String> registryEntry(ConfigEntryBuilder builder, String key,
+            String current, String defaultValue, List<String> values, Function<String, Component> name,
+            java.util.function.Consumer<String> save) {
+        java.util.Map<String, Component> names = new java.util.HashMap<>();
+        java.util.Map<String, String> ids = new java.util.HashMap<>();
+        for (String value : values) {
+            Component label = name.apply(value);
+            names.put(value, label);
+            ids.put(value, value);
+            ids.put(label.getString(), value);
+        }
+        Function<String, Component> displayName = value -> names.getOrDefault(value, Component.literal(value));
+        return builder.startDropdownMenu(Component.translatable("options.autofish." + key + ".title"),
+                        DropdownMenuBuilder.TopCellElementBuilder.of(current, input -> ids.getOrDefault(input, input),
+                                displayName), DropdownMenuBuilder.CellCreatorBuilder.ofWidth(360, displayName))
+                .setSelections(values).setSuggestionMode(true)
+                .setDefaultValue(defaultValue)
+                .setTooltip(Component.translatable("options.autofish." + key + ".title.tooltip"),
+                        Component.translatable("options.autofish.registry_search"))
+                .setErrorSupplier(value -> values.contains(value) ? Optional.empty()
+                        : Optional.of(Component.translatable("options.autofish.invalid_registry_entry")))
+                .setSaveConsumer(save).build();
+    }
+
+    private static Component soundName(String value) {
+        Identifier id = Identifier.tryParse(value);
+        WeighedSoundEvents sound = id == null ? null : Minecraft.getInstance().getSoundManager().getSoundEvent(id);
+        if (sound == null || sound.getSubtitle() == null) return Component.literal(value);
+        return Component.translatable("options.autofish.registry_entry", sound.getSubtitle(), value);
+    }
+
+    private static Component fluidName(String value) {
+        Identifier id = Identifier.tryParse(value);
+        Fluid fluid = id == null ? null : BuiltInRegistries.FLUID.getValue(id);
+        if (fluid == null || fluid == Fluids.EMPTY) return Component.literal(value);
+        var bucket = fluid.getBucket().getDefaultInstance();
+        if (!bucket.isEmpty()) {
+            return Component.translatable("options.autofish.registry_entry", bucket.getHoverName(), value);
+        }
+        String translationKey = "fluid." + id.getNamespace() + "." + id.getPath().replace('/', '.');
+        return Language.getInstance().has(translationKey)
+                ? Component.translatable("options.autofish.registry_entry", Component.translatable(translationKey), value)
+                : Component.literal(value);
     }
 }
