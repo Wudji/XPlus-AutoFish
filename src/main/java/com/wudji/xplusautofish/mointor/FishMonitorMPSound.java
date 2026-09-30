@@ -1,15 +1,16 @@
 package com.wudji.xplusautofish.mointor;
 
-import com.wudji.xplusautofish.XPlusAutofish;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.projectile.FishingHook;
+import com.wudji.xplusautofish.XPlusAutofish;
+import com.wudji.xplusautofish.config.Config;
 
-public class FishMonitorMPSound implements FishMonitorMP{
-    public static final double HOOKSOUND_DISTANCESQ_THRESHOLD = 25D;
+public class FishMonitorMPSound implements FishMonitorMP {
 
     @Override
     public void hookTick(XPlusAutofish autofish, Minecraft minecraft, FishingHook hook) {
@@ -22,34 +23,31 @@ public class FishMonitorMPSound implements FishMonitorMP{
     @Override
     public void handlePacket(XPlusAutofish autofish, Packet<?> packet, Minecraft minecraft) {
 
-        if (packet instanceof ClientboundSoundPacket ||packet instanceof ClientboundSoundEntityPacket) {
-            //TODO investigate PlaySoundFromEntityS2CPacket; i dont think its ever used for fishing but whatever
+        SoundEvent soundEvent;
+        double x, y, z;
 
-            String soundName;
-            double x, y, z;
-
-            if (packet instanceof ClientboundSoundPacket) {
-                ClientboundSoundPacket soundPacket = (ClientboundSoundPacket) packet;
-                SoundEvent soundEvent = soundPacket.getSound().value();
-                soundName = soundEvent.location().toString();
-                x = soundPacket.getX();
-                y = soundPacket.getY();
-                z = soundPacket.getZ();
-            } else {
+        if (packet instanceof ClientboundSoundPacket soundPacket) {
+            soundEvent = soundPacket.getSound().value();
+            x = soundPacket.getX();
+            y = soundPacket.getY();
+            z = soundPacket.getZ();
+        } else if (packet instanceof ClientboundSoundEntityPacket soundPacket) {
+            if (minecraft.level == null) {
                 return;
             }
-
-            if (soundName.equalsIgnoreCase("minecraft:entity.fishing_bobber.splash") || soundName.equalsIgnoreCase("entity.fishing_bobber.splash")) {
-                if(minecraft.player != null) {
-                    FishingHook hook = minecraft.player.fishing;
-                    if (hook != null) {
-                        if (hook.distanceToSqr(x, y, z) < HOOKSOUND_DISTANCESQ_THRESHOLD) {
-                            autofish.catchFish();
-                        }
-                    }
-                }
+            Entity entity = minecraft.level.getEntity(soundPacket.getId());
+            if (entity == null) {
+                return;
             }
+            soundEvent = soundPacket.getSound().value();
+            x = entity.getX();
+            y = entity.getY();
+            z = entity.getZ();
+        } else {
+            return;
         }
+
+        autofish.handleSound(soundEvent.location(), x, y, z, Config.SoundDetectionSource.SERVER_PACKET);
 
     }
 }

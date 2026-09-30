@@ -25,7 +25,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -46,7 +46,7 @@ public class NeoForgedModXPlusAutofish
 
     public static final KeyMapping.Category XPLUS_CATEGORY = new KeyMapping.Category(Identifier.fromNamespaceAndPath("autofish", "category"));
     public static final Lazy<KeyMapping> CONFIG_SCREEN_MAPPING = Lazy.of(() ->
-            new KeyMapping("key.autofish.open_gui", GLFW.GLFW_KEY_V, XPLUS_CATEGORY));
+            new KeyMapping("key.autofish.open_gui", InputConstants.Type.KEYBOARD, InputConstants.KEY_V, XPLUS_CATEGORY));
 
 
     public NeoForgedModXPlusAutofish(IEventBus modEventBus, ModContainer modContainer) {
@@ -54,6 +54,7 @@ public class NeoForgedModXPlusAutofish
         modContainer.registerConfig(ModConfig.Type.CLIENT, Config.SPEC);
 
         modEventBus.addListener(this::onConfigLoaded);
+        modEventBus.addListener(this::onConfigReloaded);
 
         modEventBus.addListener(this::clientSetup);
 
@@ -62,12 +63,21 @@ public class NeoForgedModXPlusAutofish
     }
 
     private void onConfigLoaded(final ModConfigEvent.Loading event) {
-        if (event.getConfig().getModId().equals(MODID) && instance == null) {
+        updateConfig(event.getConfig());
+    }
+
+    private void onConfigReloaded(final ModConfigEvent.Reloading event) {
+        updateConfig(event.getConfig());
+    }
+
+    private void updateConfig(ModConfig config) {
+        if (!config.getModId().equals(MODID)) return;
+        if (instance == null) {
             instance = this;
-            // Config values are now valid and can be queried
-            this.configManager = new ConfigManager(this);
-
-
+            configManager = new ConfigManager(this);
+        }
+        if (autofish != null) {
+            Minecraft.getInstance().execute(autofish::setDetection);
         }
     }
 
@@ -75,6 +85,8 @@ public class NeoForgedModXPlusAutofish
         // Register config screen factory (for mod list "Config" button and direct open)
         this.scheduler = new AutofishScheduler(this);
         this.autofish = new XPlusAutofish(this);
+        clientSetupEvent.enqueueWork(() -> Minecraft.getInstance().getSoundManager()
+                .addListener((sound, soundEvents, range) -> autofish.handleSoundPlayback(sound)));
         modContainer.registerExtensionPoint(IConfigScreenFactory.class,
                 AutoFishConfigScreen::create);
     }

@@ -1,6 +1,7 @@
 {
     "pack": {
         "description": "XPlus Autofish Resources",
-        "pack_format": 48
+        "min_format": [97, 1],
+        "max_format": [97, 1]
     }
 }
