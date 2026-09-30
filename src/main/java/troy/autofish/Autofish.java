@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.projectile.FishingHook;
@@ -17,11 +18,18 @@ import net.minecraft.world.item.Items;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.util.StringUtil;
 import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluids;
+import troy.autofish.config.Config;
 import troy.autofish.monitor.FishMonitorMP;
 import troy.autofish.monitor.FishMonitorMPMotion;
 import troy.autofish.monitor.FishMonitorMPSound;
@@ -43,6 +51,8 @@ public class Autofish {
 
     private Pattern cachedPattern;
     private String cachedRegex;
+    private String cachedFishingFluidId = Config.DEFAULT_FISHING_FLUID;
+    private Fluid cachedFishingFluid = Fluids.WATER;
 
     public long timeMillis = 0L;
 
@@ -67,7 +77,7 @@ public class Autofish {
         if(modAutofish.getScheduler().isRecastQueued()) return;
 
         if(hookExists) {
-            if(isBobberInWater()) return;
+            if(isBobberInFishingFluid()) return;
 
             // Reel once, then let the regular delayed recast perform the cast.
             // Falling through here used to use the rod twice in the same tick.
@@ -172,7 +182,11 @@ public class Autofish {
             //queue actions
             queueRodSwitch();
             queueRecast();
-            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, modAutofish.getConfig().getReelInDelay(), this::useRod);
+            modAutofish.getScheduler().scheduleAction(ActionType.REEL_IN, modAutofish.getConfig().getReelInDelay(), () -> {
+                for (int i = 0; i < modAutofish.getConfig().getReelInCount(); i++) {
+                    useRod();
+                }
+            });
         }
     }
 
@@ -224,13 +238,13 @@ public class Autofish {
         int y = bobberPos.getY() + yOffset;
         int z = bobberPos.getZ();
         return BlockPos.betweenClosedStream(x - 2, y, z - 2, x + 2, y, z + 2).allMatch(blockPos ->
-                isWaterBlock(bobber, blockPos))
+                isFishingFluidBlock(bobber, blockPos))
                 || BlockPos.betweenClosedStream(x - 2, y, z - 2, x + 2, y, z + 2).allMatch(blockPos ->
                 isAirOrLilyPad(bobber, blockPos));
     }
 
-    private boolean isWaterBlock(FishingHook bobber, BlockPos blockPos) {
-        return bobber.level().getBlockState(blockPos).getBlock() == Blocks.WATER;
+    private boolean isFishingFluidBlock(FishingHook bobber, BlockPos blockPos) {
+        return isFishingFluid(bobber.level().getFluidState(blockPos));
     }
 
     private boolean isAirOrLilyPad(FishingHook bobber, BlockPos blockPos) {
@@ -285,12 +299,64 @@ public class Autofish {
         }
     }
 
-    public boolean isBobberInWater(){
+    public boolean isBobberInFishingFluid(){
         if(client.player != null && client.level != null && client.player.fishing != null) {
-            Block block = client.level.getBlockState(client.player.fishing.blockPosition()).getBlock();
-            return block == Blocks.WATER || block == Blocks.BUBBLE_COLUMN;
+            return isFishingFluid(client.level.getFluidState(client.player.fishing.blockPosition()));
         } else{
             return false;
+        }
+    }
+
+    public boolean isFishingFluid(FluidState state) {
+        String fishingFluidId = modAutofish.getConfig().getFishingFluid();
+        if (!fishingFluidId.equals(cachedFishingFluidId)) {
+            Identifier id = Identifier.tryParse(fishingFluidId);
+            cachedFishingFluid = id == null ? Fluids.WATER : BuiltInRegistries.FLUID.getOptional(id).orElse(Fluids.WATER);
+            cachedFishingFluidId = fishingFluidId;
+        }
+
+        Fluid fluid = state.getType();
+        Fluid sourceFluid = fluid instanceof FlowingFluid flowingFluid ? flowingFluid.getSource() : fluid;
+        return sourceFluid == cachedFishingFluid;
+    }
+
+    public boolean isReelInSound(Identifier soundId) {
+        return soundId.toString().equals(modAutofish.getConfig().getReelInSound());
+    }
+
+    public int getSoundDetectionRange() {
+        return modAutofish.getConfig().getSoundDetectionRange();
+    }
+
+    public void handleSoundPlayback(SoundInstance sound) {
+        Config config = modAutofish.getConfig();
+        Identifier soundId = sound.getIdentifier();
+        if (!config.isAutofishEnabled() || !config.isUseSoundDetection()
+                || config.getSoundDetectionSource() != Config.SoundDetectionSource.CLIENT_PLAYBACK
+                || !isReelInSound(soundId)) {
+            return;
+        }
+
+        double x = sound.getX();
+        double y = sound.getY();
+        double z = sound.getZ();
+        // Defer playback callbacks until the scheduler is no longer processing a rod action.
+        client.schedule(() -> handleSound(soundId, x, y, z, Config.SoundDetectionSource.CLIENT_PLAYBACK));
+    }
+
+    public void handleSound(Identifier soundId, double x, double y, double z, Config.SoundDetectionSource source) {
+        Config config = modAutofish.getConfig();
+        if (!config.isAutofishEnabled() || !config.isUseSoundDetection() || !shouldUseMPDetection()
+                || config.getSoundDetectionSource() != source || !isReelInSound(soundId)
+                || client.player == null || client.player.fishing == null) {
+            return;
+        }
+
+        Entity origin = config.getSoundDistanceOrigin() == Config.SoundDistanceOrigin.PLAYER
+                ? client.player : client.player.fishing;
+        double soundDetectionRange = getSoundDetectionRange();
+        if (origin.distanceToSqr(x, y, z) < soundDetectionRange * soundDetectionRange) {
+            catchFish();
         }
     }
 

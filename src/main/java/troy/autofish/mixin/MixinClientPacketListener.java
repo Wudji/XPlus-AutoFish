@@ -8,6 +8,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.TickablePacketListener;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +27,11 @@ public abstract class MixinClientPacketListener extends ClientCommonPacketListen
     @Inject(method = "handleSoundEvent", at = @At("HEAD"))
     public void onPlaySound(ClientboundSoundPacket playSoundS2CPacket_1, CallbackInfo ci) {
         if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(playSoundS2CPacket_1);
+    }
+
+    @Inject(method = "handleSoundEntityEvent", at = @At("HEAD"))
+    public void onPlayEntitySound(ClientboundSoundEntityPacket soundPacket, CallbackInfo ci) {
+        if (minecraft.isSameThread()) FabricModAutofish.getInstance().handlePacket(soundPacket);
     }
 
     @Inject(method = "handleSetEntityMotion", at = @At("HEAD"))
