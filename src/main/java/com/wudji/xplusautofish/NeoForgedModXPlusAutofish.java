@@ -58,6 +58,8 @@ public class NeoForgedModXPlusAutofish
         this.scheduler = new AutofishScheduler(this);
         //Create Autofisher instance
         this.autofish = new XPlusAutofish(this);
+        clientSetupEvent.enqueueWork(() -> Minecraft.getInstance().getSoundManager()
+                .addListener((sound, soundEvents, range) -> autofish.handleSoundPlayback(sound)));
 
     }
 

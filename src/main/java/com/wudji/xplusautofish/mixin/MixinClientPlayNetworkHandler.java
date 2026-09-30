@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
+import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +26,11 @@ public abstract class MixinClientPlayNetworkHandler extends ClientCommonPacketLi
     @Inject(method = "handleSoundEvent", at = @At("HEAD"))
     public void onPlaySound(ClientboundSoundPacket playSoundS2CPacket_1, CallbackInfo ci) {
         if (minecraft.isSameThread()) NeoForgedModXPlusAutofish.getInstance().handlePacket(playSoundS2CPacket_1);
+    }
+
+    @Inject(method = "handleSoundEntityEvent", at = @At("HEAD"))
+    public void onEntitySound(ClientboundSoundEntityPacket packet, CallbackInfo ci) {
+        if (minecraft.isSameThread()) NeoForgedModXPlusAutofish.getInstance().handlePacket(packet);
     }
 
     @Inject(method = "handleSetEntityMotion", at = @At("HEAD"))
