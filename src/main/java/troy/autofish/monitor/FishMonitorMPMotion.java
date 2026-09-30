@@ -1,7 +1,5 @@
 package troy.autofish.monitor;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.network.packet.Packet;
@@ -31,7 +29,7 @@ public class FishMonitorMPMotion implements FishMonitorMP {
 
     @Override
     public void hookTick(Autofish autofish, MinecraftClient minecraft, FishingBobberEntity hook) {
-        if (worldContainsBlockWithMaterial(hook.getWorld(), hook.getBoundingBox(), Blocks.WATER)) {
+        if (worldContainsFishingFluid(autofish, hook.getWorld(), hook.getBoundingBox())) {
             hasHitWater = true;
 
         }
@@ -46,7 +44,7 @@ public class FishMonitorMPMotion implements FishMonitorMP {
     @Override
     public void handlePacket(Autofish autofish, Packet<?> packet, MinecraftClient minecraft) {
         if (packet instanceof EntityVelocityUpdateS2CPacket velocityPacket) {
-            if (minecraft.player != null && minecraft.player.fishHook != null && minecraft.player.fishHook.getId() == velocityPacket.getId()) {
+            if (minecraft.player != null && minecraft.player.fishHook != null && minecraft.player.fishHook.getId() == velocityPacket.getEntityId()) {
                 // Wait until the bobber has rose in the water.
                 // Prevent remarking the bobber rise timestamp until it is reset by catching.
                 if (hasHitWater && bobberRiseTimestamp == 0 && velocityPacket.getVelocityY() > 0) {
@@ -72,13 +70,13 @@ public class FishMonitorMPMotion implements FishMonitorMP {
         }
     }
 
-    public static boolean worldContainsBlockWithMaterial(World world, Box box, Block block) {
+    public static boolean worldContainsFishingFluid(Autofish autofish, World world, Box box) {
         int i = MathHelper.floor(box.minX);
         int j = MathHelper.ceil(box.maxX);
         int k = MathHelper.floor(box.minY);
         int l = MathHelper.ceil(box.maxY);
         int m = MathHelper.floor(box.minZ);
         int n = MathHelper.ceil(box.maxZ);
-        return BlockPos.stream(i, k, m, j - 1, l - 1, n - 1).anyMatch((blockPos) -> world.getBlockState(blockPos).getBlock() == block);
+        return BlockPos.stream(i, k, m, j - 1, l - 1, n - 1).anyMatch((blockPos) -> autofish.isFishingFluid(world.getFluidState(blockPos)));
     }
 }
