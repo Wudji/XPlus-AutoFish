@@ -1,6 +1,7 @@
 {
   "key.autofish.open_gui": "Open XPlus Autofish GUI",
   "options.autofish.title": "XPlus Autofish Settings",
+  "options.autofish.config": "General Settings",
   "key.category.autofish.category": "XPlus AutoFish",
 
   "options.autofish.toggle.on": "\u00A7aOn",
