@@ -30,10 +30,10 @@
   "autofish.configuration.turnDuration.tooltip": "保持扭转视角的时间长度，然后恢复到原始位置（毫秒）。",
 
   "autofish.configuration.useSoundDetection": "使用声音检测",
-  "autofish.configuration.useSoundDetection.tooltip": "基于浮标声音的更准确检测方式，而非简单的浮标移动检测。你必须离钩子很近才能正常工作。如果其他玩家的钩子靠近你的钩子，可能会错误触发收杆！注意：此选项只影响多人游戏，单人游戏使用已有检测。",
+  "autofish.configuration.useSoundDetection.tooltip": "§6基于浮标声音的更新 §6他将更准确的检测收杆时机 §6而不是简单的浮标移动检测 - 你必须离钩子很近 才能让它正常工作.\n- 如果其他玩家的钩子靠近你的钩子 它可能会错误地触发一次收杆!",
 
   "autofish.configuration.forceMPDetection": "多人游戏检测",
-  "autofish.configuration.forceMPDetection.tooltip": "强制在单人游戏中使用多人游戏的检测模式，保证第三方MOD的兼容性。",
+  "autofish.configuration.forceMPDetection.tooltip": "强制玩家在单人游戏中 使用多人游戏的检测模式.\n保证第三方MOD的兼容性",
 
   "autofish.configuration.recastDelay": "重新投掷延迟（毫秒）",
   "autofish.configuration.recastDelay.tooltip": "调整收杆和重新投掷钓鱼竿之间的延迟。范围：500–5000 毫秒。",
@@ -48,5 +48,25 @@
   "autofish.configuration.clearLagRegex.tooltip": "当聊天中匹配此正则表达式时，自动重新投掷钓鱼竿。",
 
   "info.autofish.open_water_detection.fail": "§c[自动钓鱼] 您当前钓鱼的区域不是开放水域，无法获得宝藏!§0",
-  "info.autofish.open_water_detection.success": "§2[自动钓鱼] 您当前钓鱼的区域是开放水域!§0"
+  "info.autofish.open_water_detection.success": "§2[自动钓鱼] 您当前钓鱼的区域是开放水域!§0",
+  "options.autofish.compatibility.title": "兼容性设置",
+  "options.autofish.compatibility.title.tooltip": "用于适配模组或服务器添加的钓鱼机制。",
+  "options.autofish.reel_in_sound.title": "收杆音效",
+  "options.autofish.reel_in_sound.title.tooltip": "启用声音检测时，触发收杆的游戏音效。",
+  "options.autofish.sound_detection_source.title": "声音检测路径",
+  "options.autofish.sound_detection_source.title.tooltip": "选择服务器声音数据包或客户端声音播放（包括本地音效）。\n单人游戏需开启“多人游戏检测”。",
+  "options.autofish.sound_detection_source.server_packet": "服务器声音数据包",
+  "options.autofish.sound_detection_source.client_playback": "客户端声音播放",
+  "options.autofish.sound_distance_origin.title": "音效距离参考对象",
+  "options.autofish.sound_distance_origin.title.tooltip": "选择测量声源到玩家或浮漂的距离。\n两种选项都需要您的浮漂存在。",
+  "options.autofish.sound_distance_origin.bobber": "浮漂",
+  "options.autofish.sound_distance_origin.player": "玩家",
+  "options.autofish.sound_detection_range.title": "音效检测范围",
+  "options.autofish.sound_detection_range.title.tooltip": "声源与所选参考对象之间允许检测的最大距离，单位为格。",
+  "options.autofish.fishing_fluid.title": "钓鱼流体",
+  "options.autofish.fishing_fluid.title.tooltip": "检测浮漂是否处于钓鱼状态时使用的流体类型。",
+  "options.autofish.reel_in_count.title": "连续收杆次数",
+  "options.autofish.reel_in_count.title.tooltip": "检测到鱼咬钩后连续执行收杆的次数。",
+  "options.autofish.registry_entry": "%1$s（%2$s）",
+  "options.autofish.registry_search": "搜索翻译名称或注册表 ID"
 }

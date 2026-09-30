@@ -30,10 +30,10 @@
   "autofish.configuration.turnDuration.tooltip": "˙(sɯ) uoᴉʇᴉsod lɐuᴉƃᴉɹo oʇ ƃuᴉɹoʇsǝɹ ǝɹoɟǝq ʍǝᴉʌ pǝuɹnʇ ǝɥʇ ploɥ oʇ ƃuol ʍoH",
 
   "autofish.configuration.useSoundDetection": "uoᴉʇɔǝʇǝp punoS ǝs∩",
-  "autofish.configuration.useSoundDetection.tooltip": "˙uoᴉʇɔǝʇǝp uʍo sʇᴉ sǝsn ɹǝʎɐldǝlƃuᴉS ˙ɹǝʎɐldᴉʇlnɯ sʇɔǝɟɟɐ ʎluo uoᴉʇdo sᴉɥʇ :ǝʇoN ¡ɥɔʇɐɔ ɐ ɹǝƃƃᴉɹʇ ʎlǝslɐɟ uɐɔ ʇᴉ 'sɹnoʎ ɹɐǝu ǝɹɐ sʞooɥ ,sɹǝʎɐld ɹǝɥʇo ɟI ˙ʞooɥ ǝɥʇ oʇ ǝsolɔ ʇɐɥʍǝɯos ǝq ʇsnɯ no⅄ ˙uoᴉʇɔǝʇǝp ʇuǝɯǝʌoɯ ʞooɥ pɹɐpuɐʇs uɐɥʇ ɹǝɥʇɐɹ spunos ɹǝqqoq uo pǝsɐq uoᴉʇɔǝʇǝp ǝʇɐɹnɔɔɐ ǝɹoɯ 'ɹǝʍǝN",
+  "autofish.configuration.useSoundDetection.tooltip": "§c˙uoᴉʇɔǝʇǝp §cuʍo sʇᴉ sǝsn ɹǝʎɐldǝlƃuᴉS ˙ɹǝʎɐldᴉʇlnɯ §csʇɔǝɟɟɐ ʎluo uoᴉʇdo sᴉɥʇ :ǝʇoN ¡ɥɔʇɐɔ ɐ ɹǝƃƃᴉɹʇ ʎlǝslɐɟ uɐɔ ʇᴉ 'sɹnoʎ ɹɐǝu ǝɹɐ sʞooɥ ,sɹǝʎɐld ɹǝɥʇo ɟI - ˙ʞɹoʍ oʇ sᴉɥʇ ɹoɟ ʞooɥ ǝɥʇ oʇ ǝsolɔ ʇɐɥʍǝɯos ǝq ʇsnɯ no⅄ -",
 
   "autofish.configuration.forceMPDetection": "(ʎʇᴉlᴉqᴉʇɐdɯoƆ poW) uoᴉʇɔǝʇǝp ɹǝʎɐldᴉʇlnW ǝɔɹoℲ",
-  "autofish.configuration.forceMPDetection.tooltip": "˙spoɯ ʎʇɹɐd pɹᴉɥʇ ɥʇᴉʍ ʎʇᴉlᴉqᴉʇɐdɯoɔ sǝpᴉʌoɹd sᴉɥ⟘ ˙ɹǝʎɐldǝlƃuᴉs uᴉ ǝlᴉɥʍ uoᴉʇɔǝʇǝp ɹǝʎɐldᴉʇlnɯ ɟo ǝsn ǝɥʇ sǝɔɹoℲ",
+  "autofish.configuration.forceMPDetection.tooltip": "ɹǝʎɐldᴉʇlnɯ ɟo ǝsn ǝɥʇ sǝɔɹoℲ ˙ɹǝʎɐldǝlƃuᴉs uᴉ ǝlᴉɥʍ uoᴉʇɔǝʇǝp ˙spoɯ ʎʇɹɐd pɹᴉɥʇ ɥʇᴉʍ ʎʇᴉlᴉqᴉʇɐdɯoɔ sǝpᴉʌoɹd sᴉɥ⟘",
 
   "autofish.configuration.recastDelay": "(sɯ) ʎɐlǝp ʇsɐɔǝᴚ",
   "autofish.configuration.recastDelay.tooltip": "˙sɯ 000Ɛ–00Ɛ :ǝƃuɐᴚ ˙poɹ ǝɥʇ ƃuᴉʇsɐɔǝɹ puɐ ɥsᴉɟ ɐ ƃuᴉɥɔʇɐɔ uǝǝʍʇǝq ʎɐlǝp ǝɥʇ sʇsnɾp∀",
@@ -48,5 +48,25 @@
   "autofish.configuration.clearLagRegex.tooltip": "˙ʇɐɥɔ uᴉ pǝɥɔʇɐɯ sᴉ uoᴉssǝɹdxǝ ɹɐlnƃǝɹ sᴉɥʇ uǝɥʍ poɹ ƃuᴉɥsᴉɟ ǝɥʇ ʇsɐɔǝᴚ",
 
   "info.autofish.open_water_detection.fail": "§0¡ɹǝʇɐʍ uǝdo ʇou sᴉ uᴉ ƃuᴉɥsᴉɟ ǝɹ,noʎ ɐǝɹɐ ǝɥ⟘ [ɥsᴉɟoʇn∀]§ɔ",
-  "info.autofish.open_water_detection.success": "§0¡ɹǝʇɐʍ uǝdo uᴉ ƃuᴉɥsᴉɟ ǝɹ,noʎ [ɥsᴉɟoʇn∀]§ᄐ"
+  "info.autofish.open_water_detection.success": "§0¡ɹǝʇɐʍ uǝdo uᴉ ƃuᴉɥsᴉɟ ǝɹ,noʎ [ɥsᴉɟoʇn∀]§ᄐ",
+  "options.autofish.compatibility.title": "sƃuᴉʇʇǝS ʎʇᴉlᴉqᴉʇɐdɯoƆ",
+  "options.autofish.compatibility.title.tooltip": "˙sɔᴉuɐɥɔǝɯ ƃuᴉɥsᴉɟ pǝppoɯ ɹoɟ sƃuᴉʇʇǝS",
+  "options.autofish.reel_in_sound.title": "punoS uᴉ-lǝǝᴚ",
+  "options.autofish.reel_in_sound.title.tooltip": "˙pǝlqɐuǝ sᴉ uoᴉʇɔǝʇǝp punoS uǝɥʍ uᴉ ƃuᴉlǝǝɹ sɹǝƃƃᴉɹʇ ʇɐɥʇ ʇuǝʌǝ punoS ǝɥ⟘",
+  "options.autofish.sound_detection_source.title": "ǝɔɹnoS uoᴉʇɔǝʇǝp punoS",
+  "options.autofish.sound_detection_source.title.tooltip": "˙uoᴉʇɔǝʇǝp ɹǝʎɐldᴉʇlnW ǝɔɹoℲ sǝɹᴉnbǝɹ ɹǝʎɐldǝlƃuᴉS\n˙spunos lɐɔol ƃuᴉpnlɔuᴉ 'ʞɔɐqʎɐld punoS ʇuǝᴉlɔ ɹo sʇǝʞɔɐd punoS ɹǝʌɹǝs ǝsooɥƆ",
+  "options.autofish.sound_detection_source.server_packet": "sʇǝʞɔɐԀ punoS ɹǝʌɹǝS",
+  "options.autofish.sound_detection_source.client_playback": "ʞɔɐqʎɐlԀ punoS ʇuǝᴉlƆ",
+  "options.autofish.sound_distance_origin.title": "uᴉƃᴉɹO ǝɔuɐʇsᴉp punoS",
+  "options.autofish.sound_distance_origin.title.tooltip": "˙ʇsᴉxǝ oʇ ɹǝqqoq ɹnoʎ ǝɹᴉnbǝɹ suoᴉʇdo ɥʇoq\n˙ɹǝqqoq ɹo ɹǝʎɐld ǝɥʇ oʇ punoS ǝɥʇ ɯoɹɟ ǝɔuɐʇsᴉp ǝɥʇ ǝɹnsɐǝW",
+  "options.autofish.sound_distance_origin.bobber": "ɹǝqqoq",
+  "options.autofish.sound_distance_origin.player": "ɹǝʎɐlԀ",
+  "options.autofish.sound_detection_range.title": "ǝƃuɐᴚ uoᴉʇɔǝʇǝp punoS",
+  "options.autofish.sound_detection_range.title.tooltip": "˙uᴉƃᴉɹo pǝʇɔǝlǝs ǝɥʇ puɐ punoS ǝɥʇ uǝǝʍʇǝq sʞɔolq uᴉ ǝɔuɐʇsᴉp ɯnɯᴉxɐɯ ǝɥ⟘",
+  "options.autofish.fishing_fluid.title": "pᴉnlℲ ƃuᴉɥsᴉℲ",
+  "options.autofish.fishing_fluid.title.tooltip": "˙ƃuᴉɥsᴉɟ ɹoɟ pǝʇɔǝʇǝp sᴉ ɹǝqqoq ǝɥʇ ɥɔᴉɥʍ uᴉ pᴉnlɟ ǝɥ⟘",
+  "options.autofish.reel_in_count.title": "ʇunoƆ uᴉ-lǝǝᴚ",
+  "options.autofish.reel_in_count.title.tooltip": "˙pǝʇɔǝʇǝp sᴉ ǝʇᴉq ɐ ɹǝʇɟɐ ǝpɐɯ sʇdɯǝʇʇɐ uᴉ-lǝǝɹ ǝʌᴉʇnɔǝsuoɔ ɟo ɹǝqɯnu ǝɥ⟘",
+  "options.autofish.registry_entry": "%1$s (%2$s)",
+  "options.autofish.registry_search": "pI ʎɹʇsᴉƃǝɹ ɹo ǝɯɐu pǝʇɐlsuɐɹʇ ɥɔɹɐǝS"
 }

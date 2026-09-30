@@ -1,8 +1,21 @@
 package com.wudji.xplusautofish.config;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.TranslatableEnum;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import java.util.Locale;
 
 public class Config {
+
+    public static final String DEFAULT_REEL_IN_SOUND = "minecraft:entity.fishing_bobber.splash";
+    public static final String DEFAULT_FISHING_FLUID = "minecraft:water";
+    public static final int DEFAULT_SOUND_DETECTION_RANGE = 5;
+
     // --- General ---
     public static ModConfigSpec.BooleanValue autofishEnabled;
     public static ModConfigSpec.BooleanValue multiRod;
@@ -21,12 +34,20 @@ public class Config {
     public static ModConfigSpec.LongValue reelInDelay;
     public static ModConfigSpec.ConfigValue<String> clearLagRegex;
 
+    // Compatibility options. Existing detection toggles keep their saved paths.
+    public static ModConfigSpec.ConfigValue<String> reelInSound;
+    public static ModConfigSpec.EnumValue<SoundDetectionSource> soundDetectionSource;
+    public static ModConfigSpec.EnumValue<SoundDistanceOrigin> soundDistanceOrigin;
+    public static ModConfigSpec.IntValue soundDetectionRange;
+    public static ModConfigSpec.ConfigValue<String> fishingFluid;
+    public static ModConfigSpec.IntValue reelInCount;
+
     public static final ModConfigSpec SPEC;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        builder.push("general");
+        builder.translation("autofish.configuration.general").push("general");
         autofishEnabled = builder
                 .comment("Toggles the entire mod on or off.")
                 .define("autofishEnabled", true);
@@ -53,12 +74,14 @@ public class Config {
                 .defineInRange("turnDuration", 500, 100, 5000);
         builder.pop();
 
-        builder.push("advanced");
+        builder.translation("autofish.configuration.advanced").push("advanced");
         useSoundDetection = builder
                 .comment("Use sound-based detection instead of motion-based detection. More accurate but requires proximity to the hook.")
+                .translation("autofish.configuration.useSoundDetection")
                 .define("useSoundDetection", false);
         forceMPDetection = builder
                 .comment("Force multiplayer detection even in singleplayer. Provides compatibility with third-party mods.")
+                .translation("autofish.configuration.forceMPDetection")
                 .define("forceMPDetection", false);
         recastDelay = builder
                 .comment("Delay between catching a fish and recasting the rod (ms).")
@@ -72,6 +95,29 @@ public class Config {
         clearLagRegex = builder
                 .comment("Regular expression pattern. Recast the rod when this pattern is matched in chat.")
                 .define("clearLagRegex", "\\[ClearLag\\] Removed [0-9]+ Entities!");
+        builder.pop();
+
+        builder.translation("options.autofish.compatibility.title").push("compatibility");
+
+        reelInSound = builder.comment("Sound event used to detect a bite when sound detection is enabled.")
+                .translation("options.autofish.reel_in_sound.title")
+                .define("reelInSound", Config.DEFAULT_REEL_IN_SOUND, Config::isRegisteredSound);
+        soundDetectionSource = builder.comment("Detect sounds from server packets or client playback.")
+                .translation("options.autofish.sound_detection_source.title")
+                .defineEnum("soundDetectionSource", Config.SoundDetectionSource.SERVER_PACKET);
+        soundDistanceOrigin = builder.comment("Measure sound detection distance from the bobber or the player.")
+                .translation("options.autofish.sound_distance_origin.title")
+                .defineEnum("soundDistanceOrigin", Config.SoundDistanceOrigin.BOBBER);
+        soundDetectionRange = builder.comment("Maximum distance from the selected origin for matching sound events, in blocks.")
+                .translation("options.autofish.sound_detection_range.title")
+                .defineInRange("soundDetectionRange", Config.DEFAULT_SOUND_DETECTION_RANGE, 1, 32);
+        fishingFluid = builder.comment("Fluid in which the bobber is considered ready for fishing.")
+                .translation("options.autofish.fishing_fluid.title")
+                .define("fishingFluid", Config.DEFAULT_FISHING_FLUID, Config::isRegisteredFluid);
+        reelInCount = builder.comment("Number of consecutive reel-in attempts after a bite is detected.")
+                .translation("options.autofish.reel_in_count.title")
+                .defineInRange("reelInCount", 1, 1, 20);
+
         builder.pop();
 
         SPEC = builder.build();
@@ -115,5 +161,56 @@ public class Config {
      */
     public boolean enforceConstraints() {
         return false;
+    }
+    public String getReelInSound() { return reelInSound.get(); }
+    public void setReelInSound(String value) { reelInSound.set(value); }
+
+    public SoundDetectionSource getSoundDetectionSource() { return soundDetectionSource.get(); }
+    public void setSoundDetectionSource(SoundDetectionSource value) { soundDetectionSource.set(value); }
+
+    public SoundDistanceOrigin getSoundDistanceOrigin() { return soundDistanceOrigin.get(); }
+    public void setSoundDistanceOrigin(SoundDistanceOrigin value) { soundDistanceOrigin.set(value); }
+
+    public int getSoundDetectionRange() { return soundDetectionRange.get(); }
+    public void setSoundDetectionRange(int value) { soundDetectionRange.set(value); }
+
+    public String getFishingFluid() { return fishingFluid.get(); }
+    public void setFishingFluid(String value) { fishingFluid.set(value); }
+
+    public int getReelInCount() { return reelInCount.get(); }
+    public void setReelInCount(int value) { reelInCount.set(value); }
+
+    public static boolean isRegisteredSound(Object value) {
+        if (!(value instanceof String string)) return false;
+        Identifier id = Identifier.tryParse(string);
+        return id != null && BuiltInRegistries.SOUND_EVENT.containsKey(id);
+    }
+
+    public static boolean isRegisteredFluid(Object value) {
+        if (!(value instanceof String string)) return false;
+        Identifier id = Identifier.tryParse(string);
+        if (id == null) return false;
+        Fluid fluid = BuiltInRegistries.FLUID.getOptional(id).orElse(Fluids.EMPTY);
+        return fluid != Fluids.EMPTY && (!(fluid instanceof FlowingFluid flowing) || fluid == flowing.getSource());
+    }
+
+    public enum SoundDetectionSource implements TranslatableEnum {
+        SERVER_PACKET,
+        CLIENT_PLAYBACK;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.sound_detection_source." + name().toLowerCase(Locale.ROOT));
+        }
+    }
+
+    public enum SoundDistanceOrigin implements TranslatableEnum {
+        BOBBER,
+        PLAYER;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.sound_distance_origin." + name().toLowerCase(Locale.ROOT));
+        }
     }
 }

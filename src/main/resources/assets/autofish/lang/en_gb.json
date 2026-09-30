@@ -30,10 +30,10 @@
   "autofish.configuration.turnDuration.tooltip": "How long to hold the turned view before restoring to original position (ms).",
 
   "autofish.configuration.useSoundDetection": "Use Sound Detection",
-  "autofish.configuration.useSoundDetection.tooltip": "Newer, more accurate detection based on bobber sounds rather than standard hook movement detection. You must be somewhat close to the hook. If other players' hooks are near yours, it can falsely trigger a catch! Note: this option only affects multiplayer. Singleplayer uses its own detection.",
+  "autofish.configuration.useSoundDetection.tooltip": "§6Newer, more accurate detection based §6on bobber sounds rather than the §6standard hook movement detection.\n- You must be somewhat close to the hook for this to work.\n- If other players' hooks are near yours, it can falsely trigger a catch!",
 
   "autofish.configuration.forceMPDetection": "Force Multiplayer Detection (Mod Compatibility)",
-  "autofish.configuration.forceMPDetection.tooltip": "Forces the use of multiplayer detection while in singleplayer. This provides compatibility with third party mods.",
+  "autofish.configuration.forceMPDetection.tooltip": "Forces the use of multiplayer detection while in singleplayer.\nThis provides compatibility with third party mods.",
 
   "autofish.configuration.recastDelay": "Recast Delay (ms)",
   "autofish.configuration.recastDelay.tooltip": "Adjusts the delay between catching a fish and recasting the rod. Range: 500–5000 ms.",
@@ -48,5 +48,25 @@
   "autofish.configuration.clearLagRegex.tooltip": "Recast the fishing rod when this regular expression pattern is matched in chat.",
 
   "info.autofish.open_water_detection.fail": "§c[Autofish] The area you're fishing in is not open water!§0",
-  "info.autofish.open_water_detection.success": "§2[Autofish] You're fishing in open water!§0"
+  "info.autofish.open_water_detection.success": "§2[Autofish] You're fishing in open water!§0",
+  "options.autofish.compatibility.title": "Compatibility Settings",
+  "options.autofish.compatibility.title.tooltip": "Settings for modded fishing mechanics.",
+  "options.autofish.reel_in_sound.title": "Reel-in Sound",
+  "options.autofish.reel_in_sound.title.tooltip": "The sound event that triggers reeling in when sound detection is enabled.",
+  "options.autofish.sound_detection_source.title": "Sound Detection Source",
+  "options.autofish.sound_detection_source.title.tooltip": "Choose server sound packets or client sound playback, including local sounds.\nSingleplayer requires Force Multiplayer Detection.",
+  "options.autofish.sound_detection_source.server_packet": "Server Sound Packets",
+  "options.autofish.sound_detection_source.client_playback": "Client Sound Playback",
+  "options.autofish.sound_distance_origin.title": "Sound Distance Origin",
+  "options.autofish.sound_distance_origin.title.tooltip": "Measure the distance from the sound to the player or bobber.\nBoth options require your bobber to exist.",
+  "options.autofish.sound_distance_origin.bobber": "Bobber",
+  "options.autofish.sound_distance_origin.player": "Player",
+  "options.autofish.sound_detection_range.title": "Sound Detection Range",
+  "options.autofish.sound_detection_range.title.tooltip": "The maximum distance in blocks between the sound and the selected origin.",
+  "options.autofish.fishing_fluid.title": "Fishing Fluid",
+  "options.autofish.fishing_fluid.title.tooltip": "The fluid in which the bobber is detected for fishing.",
+  "options.autofish.reel_in_count.title": "Reel-in Count",
+  "options.autofish.reel_in_count.title.tooltip": "The number of consecutive reel-in attempts made after a bite is detected.",
+  "options.autofish.registry_entry": "%1$s (%2$s)",
+  "options.autofish.registry_search": "Search translated name or registry ID"
 }

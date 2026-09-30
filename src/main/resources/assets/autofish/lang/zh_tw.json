@@ -30,10 +30,10 @@
   "autofish.configuration.turnDuration.tooltip": "保持轉向視角的時間長度，之後恢復到原始位置（毫秒）。",
 
   "autofish.configuration.useSoundDetection": "使用聲音偵測",
-  "autofish.configuration.useSoundDetection.tooltip": "基於浮標聲音的更新、更準確的偵測，而不是標準的魚鉤移動偵測。必須離魚鉤一定距離才能正常運作。如果其他玩家的魚鉤靠近你的魚鉤，可能會錯誤觸發釣到魚！注意：此選項僅影響多人遊戲，單人遊戲使用其自身的偵測。",
+  "autofish.configuration.useSoundDetection.tooltip": "§6基於浮標聲音的更新、更準確的偵測， §6而不是標準的魚鉤移動偵測。\n§6標準的魚鉤移動偵測。\n- 你必須離魚鉤一定距離才能 正常運作。\n- 如果其他玩家的魚鉤靠近 你的魚鉤，可能會錯誤地觸發釣到魚！",
 
   "autofish.configuration.forceMPDetection": "強制多人遊戲偵測（模組相容性）",
-  "autofish.configuration.forceMPDetection.tooltip": "在單人遊戲中強制使用多人遊戲偵測。這提供了與第三方模組的相容性。",
+  "autofish.configuration.forceMPDetection.tooltip": "在單人遊戲中強制使用多人遊戲 偵測。\n這提供了與第三方模組的相容性。",
 
   "autofish.configuration.recastDelay": "重新拋竿延遲（毫秒）",
   "autofish.configuration.recastDelay.tooltip": "調整釣到魚和重新拋竿之間的延遲。範圍：500–5000 毫秒。",
@@ -48,5 +48,25 @@
   "autofish.configuration.clearLagRegex.tooltip": "當聊天中匹配此正規表達式時，自動重新拋竿。",
 
   "info.autofish.open_water_detection.fail": "§c[自動釣魚] 你釣魚的區域不是開放水域！§0",
-  "info.autofish.open_water_detection.success": "§2[自動釣魚] 你正在開放水域釣魚！§0"
+  "info.autofish.open_water_detection.success": "§2[自動釣魚] 你正在開放水域釣魚！§0",
+  "options.autofish.compatibility.title": "相容性設定",
+  "options.autofish.compatibility.title.tooltip": "用於配合模組或伺服器新增的釣魚機制。",
+  "options.autofish.reel_in_sound.title": "收竿音效",
+  "options.autofish.reel_in_sound.title.tooltip": "啟用聲音偵測時，觸發收竿的遊戲音效。",
+  "options.autofish.sound_detection_source.title": "聲音偵測路徑",
+  "options.autofish.sound_detection_source.title.tooltip": "選擇伺服器聲音封包或用戶端聲音播放（包括本地音效）。\n單人遊戲需啟用「強制多人遊戲偵測」。",
+  "options.autofish.sound_detection_source.server_packet": "伺服器聲音封包",
+  "options.autofish.sound_detection_source.client_playback": "用戶端聲音播放",
+  "options.autofish.sound_distance_origin.title": "音效距離參考對象",
+  "options.autofish.sound_distance_origin.title.tooltip": "選擇測量聲源到玩家或浮標的距離。\n兩種選項都需要你的浮標存在。",
+  "options.autofish.sound_distance_origin.bobber": "浮標",
+  "options.autofish.sound_distance_origin.player": "玩家",
+  "options.autofish.sound_detection_range.title": "音效偵測範圍",
+  "options.autofish.sound_detection_range.title.tooltip": "聲源與所選參考對象之間允許偵測的最大距離，單位為格。",
+  "options.autofish.fishing_fluid.title": "釣魚流體",
+  "options.autofish.fishing_fluid.title.tooltip": "偵測浮標是否處於釣魚狀態時使用的流體類型。",
+  "options.autofish.reel_in_count.title": "連續收竿次數",
+  "options.autofish.reel_in_count.title.tooltip": "偵測到魚咬鉤後連續執行收竿的次數。",
+  "options.autofish.registry_entry": "%1$s（%2$s）",
+  "options.autofish.registry_search": "搜尋翻譯名稱或註冊表 ID"
 }

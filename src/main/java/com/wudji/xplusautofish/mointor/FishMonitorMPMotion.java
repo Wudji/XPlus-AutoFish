@@ -9,8 +9,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
 public class FishMonitorMPMotion implements FishMonitorMP{
@@ -30,7 +28,7 @@ public class FishMonitorMPMotion implements FishMonitorMP{
 
     @Override
     public void hookTick(XPlusAutofish autofish, Minecraft minecraft, FishingHook hook) {
-        if (worldContainsBlockWithMaterial(hook.level(), hook.getBoundingBox(), Blocks.WATER)) {
+        if (worldContainsFishingFluid(autofish, hook.level(), hook.getBoundingBox())) {
             hasHitWater = true;
         }
     }
@@ -71,7 +69,7 @@ public class FishMonitorMPMotion implements FishMonitorMP{
         }
     }
 
-    public static boolean worldContainsBlockWithMaterial(Level level, AABB aabb, Block block) {
+    public static boolean worldContainsFishingFluid(XPlusAutofish autofish, Level level, AABB aabb) {
         int i = Mth.floor(aabb.minX);
         int j = Mth.ceil(aabb.maxX);
         int k = Mth.floor(aabb.minY);
@@ -79,7 +77,7 @@ public class FishMonitorMPMotion implements FishMonitorMP{
         int m = Mth.floor(aabb.minZ);
         int n = Mth.ceil(aabb.maxZ);
         return BlockPos.betweenClosedStream(i, k, m, j - 1, l - 1, n - 1).anyMatch((blockPos) -> {
-            return level.getBlockState(blockPos).getBlock() == block;
+            return autofish.isFishingFluid(level.getFluidState(blockPos));
         });
     }
 }
