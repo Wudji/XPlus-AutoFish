@@ -53,8 +53,6 @@ Build artifacts are written to `build/libs/`. The `-sources.jar` file contains s
 ./gradlew test
 ```
 
-For branches with automated tests, the HTML test report is written to `build/reports/tests/test/index.html`.
-
 ## Development build
 
 Launch a development client using the Gradle Wrapper:
