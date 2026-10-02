@@ -28,8 +28,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import troy.autofish.FabricModAutofish;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -80,9 +78,6 @@ public final class AutofishScreenBuilder {
                 return null;
             }
 
-            Map<String, Object> sectionSpecs = new LinkedHashMap<>(subconfig.valueMap());
-            Set<Entry> sectionEntries = new LinkedHashSet<>(subsection.entrySet());
-
             Component tooltip = getTooltipComponent(key, null);
             return new Element(
                     Component.translatable(SECTION, getTranslationComponent(key)),
@@ -92,9 +87,9 @@ public final class AutofishScreenBuilder {
                                             new AutofishConfigurationSectionScreen(
                                                     context,
                                                     this,
-                                                    sectionSpecs,
+                                                    subconfig.valueMap(),
                                                     key,
-                                                    sectionEntries,
+                                                    subsection.entrySet(),
                                                     Component.translatable(getTranslationKey(key))
                                             ).rebuild()
                                     )))

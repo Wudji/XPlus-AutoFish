@@ -31,9 +31,9 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluids;
 import troy.autofish.config.Config;
 import troy.autofish.monitor.FishMonitorMP;
-import troy.autofish.monitor.FishMonitorState;
 import troy.autofish.monitor.FishMonitorMPMotion;
 import troy.autofish.monitor.FishMonitorMPSound;
+import troy.autofish.monitor.FishMonitorState;
 import troy.autofish.scheduler.Action;
 import troy.autofish.scheduler.ActionType;
 
@@ -43,7 +43,7 @@ public class Autofish {
 
     private Minecraft client;
     private FabricModAutofish modAutofish;
-    private FishMonitorMP fishMonitorMP;
+    private FishMonitorMP fishMonitor;
     private final Action persistentModeAction;
 
     private boolean hookExists = false;
@@ -99,7 +99,7 @@ public class Autofish {
             if (isHoldingFishingRod()) {
                 if (client.player.fishing != null) {
                     hookExists = true;
-                    fishMonitorMP.hookTick(this, client, client.player.fishing);
+                    fishMonitor.hookTick(this, client, client.player.fishing);
                 } else {
                     removeHook();
                 }
@@ -109,13 +109,9 @@ public class Autofish {
         }
     }
 
-    /**
-     * Callback from mixin when sound and motion packets are received
-     * For the selected sound or motion compatibility mode.
-     */
     public void handlePacket(Packet<?> packet) {
         if (modAutofish.getConfig().isAutofishEnabled()) {
-            fishMonitorMP.handlePacket(this, packet, client);
+            fishMonitor.handlePacket(this, packet, client);
         }
     }
 
@@ -250,7 +246,7 @@ public class Autofish {
         if (hookExists) {
             hookExists = false;
             hookRemovedAt = timeMillis;
-            fishMonitorMP.handleHookRemoved();
+            fishMonitor.handleHookRemoved();
         }
     }
 
@@ -384,7 +380,7 @@ public class Autofish {
     }
 
     public void setDetection() {
-        fishMonitorMP = switch (modAutofish.getConfig().getDetectionMode()) {
+        fishMonitor = switch (modAutofish.getConfig().getDetectionMode()) {
             case ENTITY -> new FishMonitorState();
             case SOUND -> new FishMonitorMPSound();
             case MOTION -> new FishMonitorMPMotion();

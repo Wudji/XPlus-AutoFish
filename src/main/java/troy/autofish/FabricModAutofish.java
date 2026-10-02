@@ -69,9 +69,6 @@ public class FabricModAutofish implements ClientModInitializer {
         }
     }
 
-    /**
-     * Mixin callback for sound and entity velocity packets (compatibility detection).
-     */
     public void handlePacket(Packet<?> packet) {
         autofish.handlePacket(packet);
     }
