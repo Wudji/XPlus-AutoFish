@@ -54,8 +54,7 @@ public class ConfigManager {
         SPEC_VALUES.noBreak.set(source.isNoBreak());
         SPEC_VALUES.persistentMode.set(source.isPersistentMode());
         SPEC_VALUES.disableInGui.set(source.isDisableInGUI());
-        SPEC_VALUES.useSoundDetection.set(source.isUseSoundDetection());
-        SPEC_VALUES.forceMpDetection.set(source.isForceMPDetection());
+        SPEC_VALUES.detectionMode.set(source.getDetectionMode());
         SPEC_VALUES.autoTurnView.set(source.isAutoTurnView());
         SPEC_VALUES.enableArmSwing.set(source.isEnableArmSwing());
         SPEC_VALUES.turnAngle.set((double) source.getTurnAngle());
@@ -79,8 +78,7 @@ public class ConfigManager {
         config.setNoBreak(SPEC_VALUES.noBreak.get());
         config.setPersistentMode(SPEC_VALUES.persistentMode.get());
         config.setDisableInGUI(SPEC_VALUES.disableInGui.get());
-        config.setUseSoundDetection(SPEC_VALUES.useSoundDetection.get());
-        config.setForceMPDetection(SPEC_VALUES.forceMpDetection.get());
+        config.setDetectionMode(SPEC_VALUES.detectionMode.get());
         config.setAutoTurnView(SPEC_VALUES.autoTurnView.get());
         config.setEnableArmSwing(SPEC_VALUES.enableArmSwing.get());
         config.setTurnAngle(SPEC_VALUES.turnAngle.get().floatValue());
@@ -122,8 +120,7 @@ public class ConfigManager {
         final ModConfigSpec.BooleanValue noBreak;
         final ModConfigSpec.BooleanValue persistentMode;
         final ModConfigSpec.BooleanValue disableInGui;
-        final ModConfigSpec.BooleanValue useSoundDetection;
-        final ModConfigSpec.BooleanValue forceMpDetection;
+        final ModConfigSpec.EnumValue<Config.DetectionMode> detectionMode;
         final ModConfigSpec.BooleanValue autoTurnView;
         final ModConfigSpec.BooleanValue enableArmSwing;
         final ModConfigSpec.DoubleValue turnAngle;
@@ -145,6 +142,9 @@ public class ConfigManager {
             this.autofishEnabled = builder.comment("Enable or disable autofishing.")
                     .translation("options.autofish.enable.title")
                     .define("enabled", true);
+            this.detectionMode = builder.comment("Choose entity bite state, sound, or bobber motion detection. Applies in both singleplayer and multiplayer.")
+                    .translation("options.autofish.detection_mode.title")
+                    .defineEnum("detectionMode", Config.DetectionMode.ENTITY);
             this.multiRod = builder.comment("Cycle to another fishing rod when the current one is no longer usable.")
                     .translation("options.autofish.multirod.title")
                     .define("multiRod", false);
@@ -176,12 +176,6 @@ public class ConfigManager {
             builder.pop();
             builder.translation("options.autofish.advanced.title").push("advanced");
 
-            this.useSoundDetection = builder.comment("Detect bites from bobber sounds instead of bobber motion.")
-                    .translation("options.autofish.sound.title")
-                    .define("useSoundDetection", false);
-            this.forceMpDetection = builder.comment("Force multiplayer-style detection even in local worlds.")
-                    .translation("options.autofish.multiplayer_compat.title")
-                    .define("forceMultiplayerDetection", false);
             this.recastDelay = builder.comment("Delay before recasting after a catch, in milliseconds.")
                     .translation("options.autofish.recast_delay.title")
                     .defineInRange("recastDelay", 1500L, 500L, 5000L);

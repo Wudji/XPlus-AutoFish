@@ -18,8 +18,7 @@ public class Config {
     @Expose boolean noBreak = false;
     @Expose boolean persistentMode = false;
     @Expose boolean disableInGUI = false;
-    @Expose boolean useSoundDetection = false;
-    @Expose boolean forceMPDetection = false;
+    @Expose DetectionMode detectionMode = DetectionMode.ENTITY;
     @Expose boolean autoTurnView = false;
     @Expose boolean enableArmSwing = true;
     @Expose float turnAngle = 30.0f;
@@ -54,10 +53,12 @@ public class Config {
     public boolean isPersistentMode() { return persistentMode; }
 
     public boolean isUseSoundDetection() {
-        return useSoundDetection;
+        return detectionMode == DetectionMode.SOUND;
     }
 
-    public boolean isForceMPDetection() { return forceMPDetection; }
+    public DetectionMode getDetectionMode() {
+        return detectionMode;
+    }
 
     public boolean isAutoTurnView() {
         return autoTurnView;
@@ -115,11 +116,9 @@ public class Config {
 
     public void setPersistentMode(boolean persistentMode) { this.persistentMode = persistentMode; }
 
-    public void setUseSoundDetection(boolean useSoundDetection) {
-        this.useSoundDetection = useSoundDetection;
+    public void setDetectionMode(DetectionMode detectionMode) {
+        this.detectionMode = detectionMode;
     }
-
-    public void setForceMPDetection(boolean forceMPDetection) { this.forceMPDetection = forceMPDetection; }
 
     public void setRecastDelay(long recastDelay) {
         this.recastDelay = recastDelay;
@@ -222,6 +221,17 @@ public class Config {
             changed = true;
         }
         return changed;
+    }
+
+    public enum DetectionMode implements TranslatableEnum {
+        ENTITY,
+        SOUND,
+        MOTION;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.detection_mode." + name().toLowerCase(Locale.ROOT));
+        }
     }
 
     public enum SoundDetectionSource implements TranslatableEnum {

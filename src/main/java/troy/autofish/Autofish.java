@@ -31,6 +31,7 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluids;
 import troy.autofish.config.Config;
 import troy.autofish.monitor.FishMonitorMP;
+import troy.autofish.monitor.FishMonitorState;
 import troy.autofish.monitor.FishMonitorMPMotion;
 import troy.autofish.monitor.FishMonitorMPSound;
 import troy.autofish.scheduler.Action;
@@ -98,10 +99,7 @@ public class Autofish {
             if (isHoldingFishingRod()) {
                 if (client.player.fishing != null) {
                     hookExists = true;
-                    //MP catch listener
-                    if (shouldUseMPDetection()) {//multiplayer only, send tick event to monitor
-                        fishMonitorMP.hookTick(this, client, client.player.fishing);
-                    }
+                    fishMonitorMP.hookTick(this, client, client.player.fishing);
                 } else {
                     removeHook();
                 }
@@ -112,33 +110,12 @@ public class Autofish {
     }
 
     /**
-     * Callback from mixin for the catchingFish method of the EntityFishHook
-     * for singleplayer detection only
-     */
-    public void tickFishingLogic(Entity owner, int ticksCatchable) {
-        //This callback will come from the Server thread. Use client.execute() to run this action in the Render thread
-        client.execute(() -> {
-            if (modAutofish.getConfig().isAutofishEnabled() && !shouldUseMPDetection()) {
-                //null checks for sanity
-                if (client.player != null && client.player.fishing != null) {
-                    //hook is catchable and player is correct
-                    if (ticksCatchable > 0 && owner.getUUID().compareTo(client.player.getUUID()) == 0) {
-                        catchFish();
-                    }
-                }
-            }
-        });
-    }
-
-    /**
      * Callback from mixin when sound and motion packets are received
-     * For multiplayer detection only
+     * For the selected sound or motion compatibility mode.
      */
     public void handlePacket(Packet<?> packet) {
         if (modAutofish.getConfig().isAutofishEnabled()) {
-            if (shouldUseMPDetection()) {
-                fishMonitorMP.handlePacket(this, packet, client);
-            }
+            fishMonitorMP.handlePacket(this, packet, client);
         }
     }
 
@@ -346,7 +323,7 @@ public class Autofish {
 
     public void handleSound(Identifier soundId, double x, double y, double z, Config.SoundDetectionSource source) {
         Config config = modAutofish.getConfig();
-        if (!config.isAutofishEnabled() || !config.isUseSoundDetection() || !shouldUseMPDetection()
+        if (!config.isAutofishEnabled() || !config.isUseSoundDetection()
                 || config.getSoundDetectionSource() != source || !isReelInSound(soundId)
                 || client.player == null || client.player.fishing == null) {
             return;
@@ -407,16 +384,11 @@ public class Autofish {
     }
 
     public void setDetection() {
-        if (modAutofish.getConfig().isUseSoundDetection()) {
-            fishMonitorMP = new FishMonitorMPSound();
-        } else {
-            fishMonitorMP = new FishMonitorMPMotion();
-        }
-    }
-
-    private boolean shouldUseMPDetection(){
-        if(modAutofish.getConfig().isForceMPDetection()) return true;
-        return !client.isLocalServer();
+        fishMonitorMP = switch (modAutofish.getConfig().getDetectionMode()) {
+            case ENTITY -> new FishMonitorState();
+            case SOUND -> new FishMonitorMPSound();
+            case MOTION -> new FishMonitorMPMotion();
+        };
     }
 
     private long getRandomDelay(){

@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import troy.autofish.config.Config;
@@ -71,7 +70,7 @@ public class FabricModAutofish implements ClientModInitializer {
     }
 
     /**
-     * Mixin callback for Sound and EntityVelocity packets (multiplayer detection)
+     * Mixin callback for sound and entity velocity packets (compatibility detection).
      */
     public void handlePacket(Packet<?> packet) {
         autofish.handlePacket(packet);
@@ -82,13 +81,6 @@ public class FabricModAutofish implements ClientModInitializer {
      */
     public void handleChat(ClientboundSystemChatPacket packet) {
         autofish.handleChat(packet);
-    }
-
-    /**
-     * Mixin callback for catchingFish method of EntityFishHook (singleplayer detection)
-     */
-    public void tickFishingLogic(Entity owner, int ticksCatchable) {
-        autofish.tickFishingLogic(owner, ticksCatchable);
     }
 
     public static FabricModAutofish getInstance() {

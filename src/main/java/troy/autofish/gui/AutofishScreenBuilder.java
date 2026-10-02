@@ -53,9 +53,7 @@ public final class AutofishScreenBuilder {
 
     private static final class AutofishConfigurationSectionScreen extends ConfigurationScreen.ConfigurationSectionScreen {
 
-        private static final String ADVANCED_SECTION = "advanced";
         private static final String COMPATIBILITY_SECTION = "compatibility";
-        private static final Set<String> DETECTION_KEYS = Set.of("useSoundDetection", "forceMultiplayerDetection");
         private static final String REEL_IN_SOUND_KEY = "reelInSound";
         private static final String FISHING_FLUID_KEY = "fishingFluid";
         private static final String SECTION = "neoforge.configuration.uitext.section";
@@ -75,29 +73,15 @@ public final class AutofishScreenBuilder {
 
         @Override
         protected Element createSection(String key, UnmodifiableConfig subconfig, UnmodifiableConfig subsection) {
-            if (!ADVANCED_SECTION.equals(key) && !COMPATIBILITY_SECTION.equals(key)) {
+            if (!COMPATIBILITY_SECTION.equals(key)) {
                 return super.createSection(key, subconfig, subsection);
             }
             if (subconfig.isEmpty()) {
                 return null;
             }
 
-            // Keep the stored configuration paths when regrouping the controls.
             Map<String, Object> sectionSpecs = new LinkedHashMap<>(subconfig.valueMap());
             Set<Entry> sectionEntries = new LinkedHashSet<>(subsection.entrySet());
-            if (ADVANCED_SECTION.equals(key)) {
-                sectionSpecs.keySet().removeAll(DETECTION_KEYS);
-                sectionEntries.removeIf(entry -> DETECTION_KEYS.contains(entry.getKey()));
-            } else {
-                UnmodifiableConfig advancedSpecs = (UnmodifiableConfig) context.valueSpecs().get(ADVANCED_SECTION);
-                UnmodifiableConfig advancedValues = (UnmodifiableConfig) context.modSpec().getValues().get(ADVANCED_SECTION);
-                for (Entry entry : advancedValues.entrySet()) {
-                    if (DETECTION_KEYS.contains(entry.getKey())) {
-                        sectionSpecs.put(entry.getKey(), advancedSpecs.valueMap().get(entry.getKey()));
-                        sectionEntries.add(entry);
-                    }
-                }
-            }
 
             Component tooltip = getTooltipComponent(key, null);
             return new Element(
