@@ -1,8 +1,16 @@
 package troy.autofish.config;
 
 import com.google.gson.annotations.Expose;
+import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.common.TranslatableEnum;
+
+import java.util.Locale;
 
 public class Config {
+
+    public static final String DEFAULT_REEL_IN_SOUND = "minecraft:entity.fishing_bobber.splash";
+    public static final String DEFAULT_FISHING_FLUID = "minecraft:water";
+    public static final int DEFAULT_SOUND_DETECTION_RANGE = 5;
 
     @Expose boolean isAutofishEnabled = true;
     @Expose boolean multiRod = false;
@@ -10,8 +18,7 @@ public class Config {
     @Expose boolean noBreak = false;
     @Expose boolean persistentMode = false;
     @Expose boolean disableInGUI = false;
-    @Expose boolean useSoundDetection = false;
-    @Expose boolean forceMPDetection = false;
+    @Expose DetectionMode detectionMode = DetectionMode.ENTITY;
     @Expose boolean autoTurnView = false;
     @Expose boolean enableArmSwing = true;
     @Expose float turnAngle = 30.0f;
@@ -19,6 +26,12 @@ public class Config {
     @Expose long recastDelay = 1500;
     @Expose long randomPercent = 50;
     @Expose long reelInDelay = 1;
+    @Expose String reelInSound = DEFAULT_REEL_IN_SOUND;
+    @Expose SoundDetectionSource soundDetectionSource = SoundDetectionSource.SERVER_PACKET;
+    @Expose SoundDistanceOrigin soundDistanceOrigin = SoundDistanceOrigin.BOBBER;
+    @Expose int soundDetectionRange = DEFAULT_SOUND_DETECTION_RANGE;
+    @Expose String fishingFluid = DEFAULT_FISHING_FLUID;
+    @Expose int reelInCount = 1;
     @Expose String clearLagRegex = "\\[ClearLag\\] Removed [0-9]+ Entities!";
 
     public boolean isAutofishEnabled() {
@@ -40,10 +53,12 @@ public class Config {
     public boolean isPersistentMode() { return persistentMode; }
 
     public boolean isUseSoundDetection() {
-        return useSoundDetection;
+        return detectionMode == DetectionMode.SOUND;
     }
 
-    public boolean isForceMPDetection() { return forceMPDetection; }
+    public DetectionMode getDetectionMode() {
+        return detectionMode;
+    }
 
     public boolean isAutoTurnView() {
         return autoTurnView;
@@ -101,11 +116,9 @@ public class Config {
 
     public void setPersistentMode(boolean persistentMode) { this.persistentMode = persistentMode; }
 
-    public void setUseSoundDetection(boolean useSoundDetection) {
-        this.useSoundDetection = useSoundDetection;
+    public void setDetectionMode(DetectionMode detectionMode) {
+        this.detectionMode = detectionMode;
     }
-
-    public void setForceMPDetection(boolean forceMPDetection) { this.forceMPDetection = forceMPDetection; }
 
     public void setRecastDelay(long recastDelay) {
         this.recastDelay = recastDelay;
@@ -138,6 +151,54 @@ public class Config {
         this.reelInDelay = reelInDelay;
     }
 
+    public String getReelInSound() {
+        return reelInSound;
+    }
+
+    public void setReelInSound(String reelInSound) {
+        this.reelInSound = reelInSound;
+    }
+
+    public SoundDetectionSource getSoundDetectionSource() {
+        return soundDetectionSource;
+    }
+
+    public void setSoundDetectionSource(SoundDetectionSource soundDetectionSource) {
+        this.soundDetectionSource = soundDetectionSource;
+    }
+
+    public SoundDistanceOrigin getSoundDistanceOrigin() {
+        return soundDistanceOrigin;
+    }
+
+    public void setSoundDistanceOrigin(SoundDistanceOrigin soundDistanceOrigin) {
+        this.soundDistanceOrigin = soundDistanceOrigin;
+    }
+
+    public int getSoundDetectionRange() {
+        return soundDetectionRange;
+    }
+
+    public void setSoundDetectionRange(int soundDetectionRange) {
+        this.soundDetectionRange = soundDetectionRange;
+    }
+
+    public String getFishingFluid() {
+        return fishingFluid;
+    }
+
+    public void setFishingFluid(String fishingFluid) {
+        this.fishingFluid = fishingFluid;
+    }
+
+    public int getReelInCount() {
+        return reelInCount;
+    }
+
+    public void setReelInCount(int reelInCount) {
+        this.reelInCount = reelInCount;
+    }
+
     public boolean isDisableInGUI() {
         return disableInGUI;
     }
@@ -160,5 +221,36 @@ public class Config {
             changed = true;
         }
         return changed;
+    }
+
+    public enum DetectionMode implements TranslatableEnum {
+        ENTITY,
+        SOUND,
+        MOTION;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.detection_mode." + name().toLowerCase(Locale.ROOT));
+        }
+    }
+
+    public enum SoundDetectionSource implements TranslatableEnum {
+        SERVER_PACKET,
+        CLIENT_PLAYBACK;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.sound_detection_source." + name().toLowerCase(Locale.ROOT));
+        }
+    }
+
+    public enum SoundDistanceOrigin implements TranslatableEnum {
+        BOBBER,
+        PLAYER;
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable("options.autofish.sound_distance_origin." + name().toLowerCase(Locale.ROOT));
+        }
     }
 }

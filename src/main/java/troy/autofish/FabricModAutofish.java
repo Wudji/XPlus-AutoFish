@@ -1,16 +1,15 @@
 package troy.autofish;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
-import org.lwjgl.glfw.GLFW;
 import troy.autofish.config.Config;
 import troy.autofish.config.ConfigManager;
 import troy.autofish.gui.AutofishScreenBuilder;
@@ -41,8 +40,8 @@ public class FabricModAutofish implements ClientModInitializer {
         autofishGuiKey = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(
                         "key.autofish.open_gui",
-                        InputConstants.Type.KEYSYM,
-                        GLFW.GLFW_KEY_V,
+                        InputConstants.Type.KEYBOARD,
+                        InputConstants.KEY_V,
                         CATEGORY
                 )
         );
@@ -54,6 +53,8 @@ public class FabricModAutofish implements ClientModInitializer {
         //Create Autofisher instance
         this.autofish = new Autofish(this);
         this.guiChecker = new GuiChecker(this);
+        ClientLifecycleEvents.CLIENT_STARTED.register(client ->
+                client.getSoundManager().addListener((sound, soundEvents, range) -> autofish.handleSoundPlayback(sound)));
 
     }
 
@@ -68,9 +69,6 @@ public class FabricModAutofish implements ClientModInitializer {
         }
     }
 
-    /**
-     * Mixin callback for Sound and EntityVelocity packets (multiplayer detection)
-     */
     public void handlePacket(Packet<?> packet) {
         autofish.handlePacket(packet);
     }
@@ -80,13 +78,6 @@ public class FabricModAutofish implements ClientModInitializer {
      */
     public void handleChat(ClientboundSystemChatPacket packet) {
         autofish.handleChat(packet);
-    }
-
-    /**
-     * Mixin callback for catchingFish method of EntityFishHook (singleplayer detection)
-     */
-    public void tickFishingLogic(Entity owner, int ticksCatchable) {
-        autofish.tickFishingLogic(owner, ticksCatchable);
     }
 
     public static FabricModAutofish getInstance() {
